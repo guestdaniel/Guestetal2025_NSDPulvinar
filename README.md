@@ -52,6 +52,8 @@ Note that these scripts require a very large amount of memory (> 100 GB) as curr
 Unless you wish to reproduce these analyses, you can skip this step and use the precomputed data in the `data` folder to proceed with figure generation (see below).
 
 ### Generate figures
+With the necessary data available on disk and the analyses complete, you can generate the subcomponents of the figures as described below for each figure in order.
+The script `code/generate_figures.py` will do most of this work for you!
 
 #### Figure 1 (pRF methods)
 This figure is hand-assembled from the stimulus image and feature files; no scripts are used.
