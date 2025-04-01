@@ -15,7 +15,7 @@ from figs_gen.fig_prf_contrast import *
 from figs_gen.fig_prf_body import *
 from figs_gen.fig_prf_wta import *
 # from figs_gen.fig_corr_methods import *
-# from figs_gen.fig_corr_cor_to_sub import *
+from figs_gen.fig_corr_cor_to_sub import *
 # from figs_gen.fig_corr_sub_to_cor import *
 # from figs_gen.supp_fig_prf_wta import *
 
@@ -44,10 +44,9 @@ def run_fig3():
     fig_prf_body_maps()
     fig_prf_body_rf_coverage()
 
-# def run_fig6():
-#     plot_fig_corr_cor_to_sub_ventral_stream_avg_group_contours()
-#     plot_fig_corr_cor_to_sub_individual_subject_consistency_maps()
-#     plot_fig_corr_cor_to_sub_group_consistency_maps()
+def run_fig6():
+    plot_fig_corr_cor_to_sub_ventral_stream_avg_group_contours()
+    plot_fig_corr_cor_to_sub_group_consistency_maps()
 
 # def run_figsupp():
 #     supp_fig_prf_wta.supp_fig_prf_wta_rainbow_maps()
@@ -61,5 +60,5 @@ if __name__ == '__main__':
     # Run figures in order
     run_fig2()
     run_fig3()
-    # run_fig6()
+    run_fig6()
     # run_figsupp()

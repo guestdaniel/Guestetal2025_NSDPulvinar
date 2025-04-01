@@ -45,36 +45,34 @@ def create_cmap_arcaro():
     cmap_arcaro = matplotlib.colors.ListedColormap(cmap_arcaro)
     return cmap_arcaro
 
+# colormap for all angle maps
+cmap_angle = create_cmap_arcaro()
 
-cmap_angle = create_cmap_arcaro()                                    # colormap for all angle maps
-cmap_rsqr = matplotlib.cm.get_cmap('hot')                            # colormap for variance explained / R^2 maps
-cmap_size = matplotlib.cm.get_cmap('plasma_r')                       # colormap for size and eccentricity maps
-cmap_lat  = matplotlib.cm.get_cmap('RdBu_r')                         # colormap for lateralization maps
-cmap_cons = matplotlib.cm.get_cmap('winter')                         # colormap for consistency maps
-#cmap_thal = matplotlib.colors.ListedColormap(matplotlib.cm.get_cmap('Set1')(np.linspace(0, 0.85, 5)))
-                                                                     # colormap for hand-drawn ROI labels
+# colormap for variance explained / R^2 maps
+cmap_rsqr = matplotlib.cm.get_cmap('hot')
+
+# colormap for size and eccentricity maps
+cmap_size = matplotlib.cm.get_cmap('plasma_r')
+
+# colormap for lateralization maps
+cmap_lat  = matplotlib.cm.get_cmap('RdBu_r')
+
+# colormap for consistency maps
+cmap_cons = matplotlib.cm.get_cmap('winter')
+
+# colormap for thalamus ROIs (LGN, pul, and SC)
 cmap_thal = matplotlib.colors.ListedColormap([[0.0, 0.5, 0.4, 1.0],
                                              [0.3, 0.8, 1.0, 1.0],
                                              [0.2, 0.3, 0.7, 1.0],
                                              [0.4, 0.2, 0.7, 1.0],
                                              [0.7, 0.1, 0.6, 1.0]])                                                                     
-#cmap_feat = matplotlib.colors.ListedColormap(matplotlib.cm.Accent(np.linspace(0, 1, 7)))
-                                                                     # colormap for feature sets
-# cmap_feat = matplotlib.colors.ListedColormap([[0.8, 0.2, 0.6, 1.0],
-#                                               [0.5, 0.1, 0.3, 1.0],
-#                                               [0.8, 0.1, 0.2, 1.0],
-#                                               [0.9, 0.4, 0.0, 1.0],
-#                                               [0.9, 0.8, 0.0, 1.0],
-#                                               [0.6, 0.8, 0.2, 1.0],
-#                                               [0.1, 0.6, 0.2, 1.0]])
 
+# colormap for features (contrast, bodies, etc.)
 cmap_feat = matplotlib.colors.ListedColormap([[0.8, 0.2, 0.6, 1.0],
                                               [0.8, 0.1, 0.2, 1.0],
                                               [0.9, 0.4, 0.0, 1.0],
                                               [0.9, 0.8, 0.0, 1.0],
                                               [0.1, 0.6, 0.2, 1.0]])
-
-
 cmap_feat2 = matplotlib.colors.ListedColormap([[27/255, 158/255, 119/255, 1.0],
                                               [217/255, 95/255, 2/255, 1.0],
                                               [117/255, 112/255, 179/255, 1.0],
@@ -87,6 +85,7 @@ cmap_corr = matplotlib.colors.ListedColormap([[0.0, 0.6, 0.5, 1.0],
                                               [0.9, 0.8, 0.0, 1.0],
                                               [0.0, 0.6, 0.8, 1.0],
                                               [0.1, 0.4, 0.8, 1.0]])
+
 
 def load_volume(subjs=None, space='mni', volume='T1'):
     """ Load NIFTI data of multiple subjects from Guestetal2021_data
@@ -147,17 +146,6 @@ def calc_areas(angle, size, ecc):
         return ((A-A_segment)/A - 1/2)*2
     else:
         return (A_segment/A - 1/2)*2
-
-    # plt.figure()
-    # plt.gca().add_patch(plt.Circle((x, y), radius, fill=False))
-    # plt.plot([0, 0], [-10, 10], color='black')
-    # plt.plot([-10, 10], [0, 0], color='black')
-    # plt.gca().set_aspect('equal')
-    # plt.plot([x, x+r], [y, y], color='red')
-    # plt.plot([x+r, x+r+h], [y, y], color='green')
-    # plt.plot([x, x+r], [y, y+np.sin(theta/2)*R], color='orange')
-    # plt.plot([x, x+r], [y, y-np.sin(theta/2)*R], color='orange')
-    # plt.show()
 
 
 def calc_lat(angle, size, ecc):

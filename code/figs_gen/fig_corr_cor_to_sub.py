@@ -340,7 +340,6 @@ def plot_fig_corr_cor_to_sub_group_consistency_maps():
                 plt.plot([95, 95], lim_y, color='dimgray', linestyle='dashed', linewidth=1.0)
             plt.gca().set_aspect('equal')
             plt.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
-            plt.savefig(os.path.join('../figures', 'fig_corr_cor_to_sub_group_consistency_maps_' + view + '_' + str(idx_map) + '.png'), dpi=500,
-                        interpolation='none')
+            plt.savefig(os.path.join('../figures', 'fig_corr_cor_to_sub_group_consistency_maps_' + view + '_' + str(idx_map) + '.png'), dpi=500)
     plt.close('all')
 
