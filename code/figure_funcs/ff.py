@@ -5,6 +5,11 @@ from skimage import measure
 import nibabel as nib
 import os
 
+# Set location for data (we expect these functions to be executed in the `code` directory,
+# and here we define the other paths relative to that directory)
+dir_data = "../data/prepared"
+dir_plots = "../figures"
+
 # Handle some general sizing across figures
 SMALL_SIZE = 18
 MEDIUM_SIZE = 22
@@ -82,10 +87,6 @@ cmap_corr = matplotlib.colors.ListedColormap([[0.0, 0.6, 0.5, 1.0],
                                               [0.9, 0.8, 0.0, 1.0],
                                               [0.0, 0.6, 0.8, 1.0],
                                               [0.1, 0.4, 0.8, 1.0]])
-
-# Configure directories
-dir_data = 'C:\\Users\\daniel\\Desktop\\Guestetal2025_NSDPulvinar\\data\\prepared'
-dir_plots = 'C:\\Users\\daniel\\Desktop\\Guestetal2025_NSDPulvinar\\figures'
 
 def load_volume(subjs=None, space='mni', volume='T1'):
     """ Load NIFTI data of multiple subjects from Guestetal2021_data

@@ -4,9 +4,10 @@
 # This script does fairly little heavy lifting, and as such can be expected
 # to run on a normal workstation and should finish within 30 minutes.
 
-# Import OS and navigate to correct directory to run this file
+# Import OS and navigate to correct directory to run this file; we assume that the script
+# is initiated from the main repository folder!
 import os
-os.chdir("C:\\Users\\daniel\\Desktop\\Guestetal2025_NSDPulvinar\\code")
+os.chdir("code")
 
 # Import functions from various figure function files
 from figs_gen.colorbars import *
