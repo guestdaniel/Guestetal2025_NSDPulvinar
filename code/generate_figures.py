@@ -16,6 +16,7 @@ from figs_gen.fig_prf_body import *
 from figs_gen.fig_prf_wta import *
 # from figs_gen.fig_corr_methods import *
 from figs_gen.fig_corr_cor_to_sub import *
+from figs_gen.supp_fig_prf_all import *
 # from figs_gen.fig_corr_sub_to_cor import *
 # from figs_gen.supp_fig_prf_wta import *
 
@@ -32,6 +33,9 @@ def run_colorbars():
 
 # Function to generate components of Figure 2 (winner-take-all pRF comparison)
 def run_fig2():
+    map_names = ['contrastNEW', 'bodyauto', 'faceauto', 'backgroundauto', 'foregroundauto', 'salience', 'wordauto']
+    for map_name in map_names:
+        fig_prf_maps(map_name)
     fig_prf_wta_contextual_anatomy()
     fig_prf_wta_mip_maps()
     fig_prf_wta_maps()
