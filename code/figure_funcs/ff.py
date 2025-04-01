@@ -84,9 +84,8 @@ cmap_corr = matplotlib.colors.ListedColormap([[0.0, 0.6, 0.5, 1.0],
                                               [0.1, 0.4, 0.8, 1.0]])
 
 # Configure directories
-dir_data = '/home/daniel/Guestetal2021_data'
-dir_plots = '/home/daniel/Guestetal2021/../figures'
-
+dir_data = 'C:\\Users\\daniel\\Desktop\\Guestetal2025_NSDPulvinar\\data\\prepared'
+dir_plots = 'C:\\Users\\daniel\\Desktop\\Guestetal2025_NSDPulvinar\\figures'
 
 def load_volume(subjs=None, space='mni', volume='T1'):
     """ Load NIFTI data of multiple subjects from Guestetal2021_data

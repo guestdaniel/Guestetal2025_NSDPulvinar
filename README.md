@@ -10,8 +10,7 @@ It should be added as a folder entitled `nsd` in the `data` folder.
 (See below for more details.)
 
 In a [separate data repository](link to repo), we provide for convenience pre-computed data files containing our analyses that are used by the plotting code.
-These data should be acquired stored in `data`, as a folder called `results`.
-(NOTE: these files are not yet available in a repository, but will be added soon.)
+These data should be acquired stored in `data`, as a folder called `prepared`.
 
 ## Environment and dependencies
 Code to produce the analyses and figures reported in the paper is written in a combination of MATLAB (any recent version) and Python 3 (tested on 3.12).

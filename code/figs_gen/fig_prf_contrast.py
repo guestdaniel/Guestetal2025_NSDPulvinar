@@ -6,8 +6,7 @@ import matplotlib.pyplot as plt
 from figure_funcs import ff
 from matplotlib import patches
 import matplotlib
-#matplotlib.use('Agg')
-matplotlib.use("Qt5Cairo")
+matplotlib.use('Agg')
 
 
 def fig_prf_contrast_anatomy():
