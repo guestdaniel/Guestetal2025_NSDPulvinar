@@ -1,8 +1,8 @@
 # Python script to move existing/pre-prepared data files (e.g., T1 anatomy) to Guestetal2021_data.
-
 import os
 import sys
 from shutil import copyfile
+os.chdir("code")
 
 # Set up paths (Old for surly)
 # main_path = '/home/surly-raid4/kendrick-data/nsd/nsddata/ppdata/'
@@ -12,7 +12,7 @@ from shutil import copyfile
 # Set up paths (new for public)
 main_path = 'data/nsd/nsddata/ppdata/'
 nsdprf_path = 'data/nsdfaceprf/freesurfer'
-output_path = 'data'
+output_path = 'data/prepared'
 
 # Configure
 subjs = ['subj01', 'subj02', 'subj03', 'subj04', 'subj05', 'subj06', 'subj07', 'subj08']
