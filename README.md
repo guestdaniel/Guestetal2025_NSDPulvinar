@@ -14,11 +14,7 @@ In a [separate data repository](link to repo), we provide for convenience pre-co
 These data should be acquired stored in `data`, as a folder called `prepared`.
 
 ## Environment and dependencies
-<<<<<<< HEAD
-Code to produce the analyses and figures reported in the paper is written in a combination of MATLAB (any recent version) and Python 3 (tested on 3.12 and 3.13).
-=======
 Code to produce the analyses and figures reported in the paper is written in a combination of MATLAB (for correlation analyses and surface plots, any recent version should do) and Python 3 (remaining figure/analysis code, tested on 3.12/3.13 but any recent version should do).
->>>>>>> 57ea2a647ec912c764021c15f64c45080687555a
 
 ### MATLAB dependencies
 - MATLAB toolboxes (Parallel Toolbox, Image Processing Toolbox)
