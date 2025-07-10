@@ -30,6 +30,15 @@ def colorbar_variance_explained():
     plt.colorbar(cax=cax)
     plt.savefig(os.path.join('../figures', 'fig_colorbar_variance_explained.png'))
 
+def colorbar_variance_explained_cortical():
+    # Variance explained colorbar
+    a = np.array([[0, 40]])
+    plt.figure(figsize=(1, 2.25))
+    img = plt.imshow(a, cmap=ff.cmap_rsqr)
+    plt.gca().set_visible(False)
+    cax = plt.axes([0.2, 0.1, 0.2, 0.8])
+    plt.colorbar(cax=cax)
+    plt.savefig(os.path.join('../figures', 'fig_colorbar_variance_explained.png'))
 
 def colorbar_angle():
     # Angle colorbar

@@ -3,6 +3,7 @@
 # This script generates all Python-derived figure elements for the manuscript.
 # This script does fairly little heavy lifting, and as such can be expected
 # to run on a normal workstation and should finish within 30 minutes.
+# The contents of the `data/prepared` folder MUST be populated for this script to run!
 
 # Import OS and navigate to correct directory to run this file
 import os
@@ -24,6 +25,7 @@ def run_colorbars():
     colorbar_angle()
     colorbar_size()
     colorbar_variance_explained()
+    colorbar_variance_explained_cortical()
     colorbar_roi()
     colorbar_laterality()
     colorbar_pearsons()

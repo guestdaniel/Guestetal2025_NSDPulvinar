@@ -1,11 +1,12 @@
 # Hierarchical processing of natural scenes in the human pulvinar
 This is the code repository for Guest, Allen, Kay, and Arcaro (2025), "Hierarchical processing of natural scenes in the human pulvinar," which is currently in submission.
 A preprint version of the paper is available on [BioRxiv](https://doi.org/10.1101/2025.03.20.644381).
+Please direct questions to Daniel Guest ([daniel_guest@urmc.rochester.edu](mailto:daniel_guest@urmc.rochester.edu)).
 
 ## Data, stimuli, and other materials
 This paper is an analysis of publically available data in the [Natural Scenes Dataset](naturalscenesdataset.org) (NSD).
 
-To reproduce the analyses, you will need NSD to be available on your local machine.
+To reproduce the analyses, the preprocessed subset of NSD must be available on your local machine.
 It should be added as a folder entitled `nsd` in the `data` folder.
 (See below for more details.)
 
@@ -13,7 +14,7 @@ In a [separate data repository](link to repo), we provide for convenience pre-co
 These data should be acquired stored in `data`, as a folder called `prepared`.
 
 ## Environment and dependencies
-Code to produce the analyses and figures reported in the paper is written in a combination of MATLAB (any recent version) and Python 3 (tested on 3.12).
+Code to produce the analyses and figures reported in the paper is written in a combination of MATLAB (any recent version) and Python 3 (tested on 3.12 and 3.13).
 
 ### MATLAB dependencies
 - MATLAB toolboxes (Parallel Toolbox, Image Processing Toolbox)
@@ -30,14 +31,18 @@ Code to produce the analyses and figures reported in the paper is written in a c
 Below, we list the steps required to reproduce the figures in the paper.
 
 ### Preprocessing
+(Note that many of the steps below rely on scripts that still use hard server-specific paths; these are being gradually replaced with relative paths to copies of the data in `data`. If you run into an issue along these lines, please reach out to the authors for support.)
+
 1. [Acquire the NSD data](naturalscenesdataset.org) and place it in `data/nsd` (or place a symbolic link to where you are storing the data, since it is quite large!).
 2. You also need to acquire the NSD pRF data and place it in `data/nsdfaceprf`. 
-3. Run `code/preproc/extract_data.py` to copy the relevant bits of the NSD data to the folders where they are expected to be by the plotting scripts. We only use a small subset of the data, so this should only occupy ~1 GB of space.
+3. Run `code/preproc/extract_data.py` to copy the relevant bits of the NSD data to the folders where they are expected to be by the plotting scripts. We only use a small subset of the data, so this should only occupy ~3 GB of additional space.
 4. For several of these files, we then need to transform them from one space to another (e.g., 0.5mm subject-specific anatomical space to shared MNI space).
 This is achieved by the `src/preproc/transform...` MATLAB scripts.
 5. Compile various cortical ROIs needed in subsequent analysis steps with `src/preproc/compile_ROIs.m`
 
 ### Perform correlation analyses
+(Note that many of the steps below rely on scripts that still use hard server-specific paths; these are being gradually replaced with relative paths to copies of the data in `data`. If you run into an issue along these lines, please reach out to the authors for support.)
+
 Cortex-to-subcortex correlation analyses are implemented in MATLAB scripts `code/analysis/corr_cor_to_sub/*.m`.
 1. `s02_average_cortical_data.m` computes average responses for each subject across pre-specified cortical ROIs and then stores them on disk.
 2. `s03_compute_correlations.m` computes and saves values for the correlation between each of the average-ROI responses and responses in each voxel within the posterior thalamus ROI.
@@ -52,7 +57,7 @@ Unless you wish to reproduce these analyses, you can skip this step and use the 
 
 ### Generate figures
 With the necessary data available on disk and the analyses complete, you can generate the subcomponents of the figures as described below for each figure in order.
-The script `code/generate_figures.py` will do most of this work for you!
+The script `code/generate_figures.py` will do most of this work for you, provided that all of the outputs above have already been generated and stored in `data/prepared` or the prepared data have been downloaded from the [data repository](link to repo).
 
 #### Figure 1 (pRF methods)
 This figure is hand-assembled from the stimulus image and feature files; no scripts are used.
