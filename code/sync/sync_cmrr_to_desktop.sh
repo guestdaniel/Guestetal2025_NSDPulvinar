@@ -3,3 +3,6 @@
 
 # Move bulk images for supplemental materials surface PRF data 
 scp dguest@surly.cmrr.umn.edu:~/Guestetal2021/figs_output_bulk/fsaverage*.png C:\Users\Daniel\Desktop\Guestetal2025_NSDPulvinar\figs_bulk
+
+# Move bulk images from supplemental stability assessment of sub_to_cor results
+scp dguest@surly.cmrr.umn.edu:~/Guestetal2021/figs_output_bulk/*supplemental*.png C:\Users\Daniel\Desktop\Guestetal2025_NSDPulvinar\figs_bulk

@@ -70,16 +70,18 @@ for subj=1:8
 
 	% Locate best N voxels
     bestN = cell(2, 2);
-    for idx_data = 1:2
-        % Based on idx_data, decide if we are processing contrast or body data
-        if idx_data == 1
-            temp = R2_contrast;
-        else
-            temp = R2_bodyauto;
-        end
 
-        % Based on idx_hemi, decide if we zero out LH or RH
+    % Loop over data sources [contrast, bodyauto]
+    for idx_data = 1:2
+        % Loop over hemispheres [left, right]
         for idx_hemi = 1:2
+            % Based on idx_data, decide if we are processing contrast or body data
+            if idx_data == 1
+                temp = R2_contrast;
+            else
+                temp = R2_bodyauto;
+            end
+            % Based on idx_hemi, decide if we are zeroing out LH or RH
             if idx_hemi == 1  % we're looking at LH, ignoring RH
                 temp(RH, :, :) = 0;
             else              % we're looking at RH, ignoring LH
@@ -96,16 +98,18 @@ for subj=1:8
 
 	% Locate worst N voxels
     worstN = cell(2, 2);
-    for idx_data = 1:2
-        % Based on idx_data, decide if we are processing contrast or body data
-        if idx_data == 1
-            temp = R2_contrast;
-        else
-            temp = R2_bodyauto;
-        end
 
-        % Based on idx_hemi, decide if we zero out LH or RH
+    % Loop over data sources [contrast, bodyauto]
+    for idx_data = 1:2
+        % Loop over hemispheres [left, right]
         for idx_hemi = 1:2
+            % Based on idx_data, decide if we are processing contrast or body data
+            if idx_data == 1
+                temp = R2_contrast;
+            else
+                temp = R2_bodyauto;
+            end
+            % Based on idx_hemi, decide if we are zeroing out LH or RH
             if idx_hemi == 1  % we're looking at LH, ignoring RH
                 temp(RH, :, :) = 0;
             else              % we're looking at RH, ignoring LH
