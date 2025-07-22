@@ -25,6 +25,10 @@ contrast_maximum_lh = zeros(8, N, 3);
 contrast_maximum_rh = zeros(8, N, 3);
 body_maximum_lh = zeros(8, N, 3);
 body_maximum_rh = zeros(8, N, 3);
+contrast_minimum_lh = zeros(8, N, 3);
+contrast_minimum_rh = zeros(8, N, 3);
+body_minimum_lh = zeros(8, N, 3);
+body_minimum_rh = zeros(8, N, 3);
 
 % Loop through subjects and load each map
 for subj=1:8 
@@ -99,6 +103,10 @@ for subj=1:8
 	% Locate worst N voxels
     worstN = cell(2, 2);
 
+    % For worst N, we put every value outside the ROI to a large number 
+	R2_contrast(roi ~= 1) = 1000;
+	R2_bodyauto(roi ~= 1) = 1000;
+
     % Loop over data sources [contrast, bodyauto]
     for idx_data = 1:2
         % Loop over hemispheres [left, right]
@@ -109,11 +117,11 @@ for subj=1:8
             else
                 temp = R2_bodyauto;
             end
-            % Based on idx_hemi, decide if we are zeroing out LH or RH
+            % Based on idx_hemi, decide if we are filling with big values LH or RH
             if idx_hemi == 1  % we're looking at LH, ignoring RH
-                temp(RH, :, :) = 0;
+                temp(RH, :, :) = 1000;
             else              % we're looking at RH, ignoring LH
-                temp(LH, :, :) = 0;
+                temp(LH, :, :) = 1000;
             end
 
             % Identify top N voxels and their locations
