@@ -18,7 +18,7 @@ from figs_gen.fig_prf_wta import *
 # from figs_gen.fig_corr_methods import *
 from figs_gen.fig_corr_cor_to_sub import *
 from figs_gen.supp_fig_prf_all import *
-# from figs_gen.fig_corr_sub_to_cor import *
+from figs_gen.fig_corr_sub_to_cor import *
 # from figs_gen.supp_fig_prf_wta import *
 
 # Function to generate all colorbars
