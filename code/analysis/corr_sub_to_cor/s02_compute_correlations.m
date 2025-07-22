@@ -21,7 +21,7 @@ for subj=1:8
 	[data_cortical, data_subcortical] = f_load_data_subject_native(subj, n_sess_per_subj(subj), 1); 
 
 	% Load this subject's mat file indicating where data in brick belongs in subject-native volume
-	load(fullfile(xxx_kkdata_dir, ['datab3nativesurface_subj0' num2str(subj) '.mat']));
+	load(fullfile(addtl_dir, ['datab3nativesurface_subj0' num2str(subj) '.mat']));
 	coords_start = [d1(1), d2(1), d3(1)];
 	coords_end = [d1(end), d2(end), d3(end)];
 	%save([output_dir '/subj0' num2str(subj) '_coords_start.mat'], 'coords_start');
@@ -70,7 +70,7 @@ end
 d = {};
 for subj = 1:8
 	% Load this subject's mat file indicating where data in brick belongs in subject-native volume
-	load(fullfile(xxx_kkdata_dir, ['datab3nativesurface_subj0' num2str(subj) '.mat']));
+	load(fullfile(addtl_dir, ['datab3nativesurface_subj0' num2str(subj) '.mat']));
 	%coords_start = [d1(1), d2(1), d3(1)];
 	%coords_end = [d1(end), d2(end), d3(end)];
     d{subj} = {d1, d2, d3};

@@ -31,7 +31,7 @@ roi_words = [cvnloadmgz(fullfile(data_dir, 'group', 'fsaverage', 'lh.floc-words_
 % % Loop through methods
 for method=1:2
 	% Loop through seeds
-	for idx_seed=1:4  % do body top N left/right contrast/body, skip worst N
+	for idx_seed=1:8
         % Loop through subjects and load all correlation maps
         for n=1:N
             % Determine paths to data
