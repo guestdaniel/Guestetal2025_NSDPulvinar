@@ -34,7 +34,7 @@ for subj=1:8
 	coords = {cont_lh(subj, :, :), cont_rh(subj, :, :), body_lh(subj, :, :), body_rh(subj, :, :), cont_lh_m(subj, :, :), cont_rh_m(subj, :, :), body_lh_m(subj, :, :), body_rh_m(subj, :, :)};
 
 	% Loop over coords and labels and compute each correlation 
-	for ii=1:4  % 4 == only do maxima voxels, skip minima voxels
+	for ii=1:length(labels) 
         % Extract coordinates for this feature/side's N voxels
         Ncoords = squeeze(coords{ii});
 

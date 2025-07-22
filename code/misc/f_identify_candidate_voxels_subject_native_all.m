@@ -1,4 +1,4 @@
-function [contrast_maximum_lh, contrast_maximum_rh, body_maximum_lh, body_maximum_rh, contrast_minimum_lh, contrast_minimum_lh, body_minimum_lh, body_minimum_rh] = f_identify_candidate_voxels_subject_native_all(N)
+function [contrast_maximum_lh, contrast_maximum_rh, body_maximum_lh, body_maximum_rh, contrast_minimum_lh, contrast_minimum_rh, body_minimum_lh, body_minimum_rh] = f_identify_candidate_voxels_subject_native_all(N)
 % Locates peaks in the subcortical variance explained for contrast model and body model and returns 
 % their spatial locations; in contrast to the simpler `f_identify_candidate_voxels_subject_native`,
 % which returns only a peak voxel location, this function returns the locations of the top N and
