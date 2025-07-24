@@ -3,7 +3,7 @@ import os
 import matplotlib.pyplot as plt
 from figure_funcs import ff
 import matplotlib
-matplotlib.use('Agg')
+# matplotlib.use('Agg')
 
 
 def truncate_colormap(cmap, minval=0.0, maxval=1.0, n=100):
@@ -81,3 +81,65 @@ def plot_fig_corr_sub_to_cor_r2_and_anatomy_maps():
     cax = plt.axes([0.2, 0.1, 0.2, 0.8])
     plt.colorbar(cax=cax)
     plt.savefig(os.path.join('../figures', 'fig_corr_sub_to_cor_r2_colormap.png'), dpi=300)
+
+
+def plot_fig_corr_sub_to_cor_pRF_data():
+    """ Plot pRF data for seed voxels in Figs 4/5
+
+    Takes the seed voxel locations (hardcoded) used in the correlation figures 
+    """
+    contrast_peak = [11, 15, 12]  # manually define location of contrast peak in LH Subj 1 relative to LPI corner
+    body_peak = [18, 14, 15]  # manually define location of body peak in LH Subj 1 relative to LPI corner
+
+    # Create figure
+    fig = plt.figure(figsize=(8, 3))
+    ax = fig.add_axes(111)
+
+    # Manually define a few things
+    contrast_peak = [11, 15, 12]  # manually define location of contrast peak in LH Subj 1 relative to LPI corner
+    body_peak = [18, 14, 15]  # manually define location of body peak in LH Subj 1 relative to LPI corner
+
+    # Extract pRF data for the contrast peak and add to plot
+    AN = ff.load_volume(volume='contrastNEW_angle', space='func1mm')[0]
+    EC = ff.load_volume(volume='contrastNEW_eccentricity', space='func1mm')[0]
+    SZ = ff.load_volume(volume='contrastNEW_size', space='func1mm')[0]
+    contrast_peak = [coord - 1 for coord in contrast_peak]
+    ang = AN[contrast_peak[0], contrast_peak[1], contrast_peak[2]]  
+    ecc = EC[contrast_peak[0], contrast_peak[1], contrast_peak[2]]
+    siz = SZ[contrast_peak[0], contrast_peak[1], contrast_peak[2]]
+    add_pRF_outline(ax, ang, ecc, siz)
+
+    # Extract pRF data for the contrast peak and add to plot
+    AN = ff.load_volume(volume='bodyauto_angle', space='func1mm')[0]
+    EC = ff.load_volume(volume='bodyauto_eccentricity', space='func1mm')[0]
+    SZ = ff.load_volume(volume='bodyauto_size', space='func1mm')[0]
+    peak = [coord - 1 for coord in body_peak]
+    ang = AN[peak[0], peak[1], peak[2]]  
+    ecc = EC[peak[0], peak[1], peak[2]]
+    siz = SZ[peak[0], peak[1], peak[2]]
+    add_pRF_outline(ax, ang, ecc, siz, color=[0, 0, 1])
+
+    fig.show()
+
+def add_pRF_outline(ax, ang, ecc, siz, color=[1, 0, 0]):
+    """ Add pRF outline to the given axis """
+    # Lay out basic markings on plot
+    ax.plot([-10, 10], [0, 0], linestyle='dashed', color='gray')
+    ax.plot([0, 0], [-10, 10], linestyle='dashed', color='gray')
+    rect = plt.Rectangle(xy=(-4.2, -4.2), width=8.4, height=8.4, color='gray', fill=False)
+    ax.add_artist(rect)
+
+    # Set limits
+    ax.set_xlim((-8.4, 8.4))
+    ax.set_ylim((-8.4, 8.4))
+    ax.set_xticks([])
+    ax.set_yticks([])
+
+    # Force square axes
+    ax.set(adjustable='box', aspect='equal')
+
+    # Add pRF outline
+    ax.plot(ecc * np.cos(ang * np.pi / 180), ecc * np.sin(ang * np.pi / 180), color=color, markersize=3, marker='o')
+    circ = plt.Circle((ecc * np.cos(ang * np.pi / 180), ecc * np.sin(ang * np.pi / 180)), siz,
+                      color=color, fill=False, linewidth=0.5, alpha=1.0)
+    ax.add_artist(circ)

@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from figure_funcs import ff
 from matplotlib import patches
 import matplotlib
-matplotlib.use('Agg')
+#matplotlib.use('Agg')
 import nibabel as nib
 
 

@@ -7,7 +7,7 @@ from figure_funcs import ff
 from matplotlib.colors import LightSource
 from matplotlib import cm
 from skimage import measure
-matplotlib.use('Agg')
+#matplotlib.use('Agg')
 from scipy.io import loadmat
 from scipy import ndimage
 #from adjustText import adjust_text

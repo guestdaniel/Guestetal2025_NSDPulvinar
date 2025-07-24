@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from figure_funcs import ff
 from matplotlib import patches
 import matplotlib
-matplotlib.use('Agg')
+#matplotlib.use('Agg')
 
 
 def fig_prf_maps(map_name='contrastNEW', cutoff=0.1):

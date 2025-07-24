@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib as mpl
-matplotlib.use('Agg')
+#matplotlib.use('Agg')
 from figure_funcs import ff
 
 

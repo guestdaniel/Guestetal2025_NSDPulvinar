@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from figure_funcs import ff
 from matplotlib import patches
 import matplotlib
-matplotlib.use('Agg')
+#matplotlib.use('Agg')
 plt.ion()
 from figs_gen.fig_corr_cor_to_sub.fig_corr_cor_to_sub import clean_data
 
