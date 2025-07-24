@@ -45,11 +45,11 @@ for subj=1:8
 	temp = temp.img;
 	temp = squeeze(temp(:, :, :, 1));
 	% Make empty volume the same size as roi
-	vol = zeros(size(roi));
+	vol = nan(size(roi));
 	% Insert data into volume
 	vol(d1, d2, d3) = temp;
 	% Zero out voxels not in ROI
-	vol(roi ~= 1) = 0;
+	vol(roi ~= 1) = NaN;
 	R2_contrast = vol;
 
 	% Load in body R2
@@ -57,11 +57,11 @@ for subj=1:8
 	temp = temp.img;
 	temp = squeeze(temp(:, :, :, 1));
 	% Make empty volume the same size as roi
-	vol = zeros(size(roi));
+	vol = nan(size(roi));
 	% Insert data into volume
 	vol(d1, d2, d3) = temp;
 	% Zero out voxels not in ROI
-	vol(roi ~= 1) = 0;
+	vol(roi ~= 1) = NaN;
 	R2_bodyauto = vol;
 
 	% Identify LH and RH indices
@@ -87,14 +87,16 @@ for subj=1:8
             end
             % Based on idx_hemi, decide if we are zeroing out LH or RH
             if idx_hemi == 1  % we're looking at LH, ignoring RH
-                temp(RH, :, :) = 0;
+                temp(RH, :, :) = NaN;
             else              % we're looking at RH, ignoring LH
-                temp(LH, :, :) = 0;
+                temp(LH, :, :) = NaN;
             end
 
             % Identify top N voxels and their locations
-            [~, idx_sort] = sort(temp(:));
+            [temp_sort, idx_sort] = sort(temp(:));
             idx_sort = flipud(idx_sort);  % voxels now sorted with best at idx_sort(1) and worst at idx_sort(end)
+            temp_sort = flipud(temp_sort);
+            idx_sort = idx_sort(~isnan(temp_sort));  % throw away NaNs, which MATLAB sort places at end/top
             [x, y, z] = ind2sub(size(temp), idx_sort(1:N));
             bestN{idx_data, idx_hemi} = [x-d1(1)+1, y-d2(1)+1, z-d3(1)+1];
         end
@@ -102,10 +104,6 @@ for subj=1:8
 
 	% Locate worst N voxels
     worstN = cell(2, 2);
-
-    % For worst N, we put every value outside the ROI to a large number 
-	R2_contrast(roi ~= 1) = 1000;
-	R2_bodyauto(roi ~= 1) = 1000;
 
     % Loop over data sources [contrast, bodyauto]
     for idx_data = 1:2
@@ -119,13 +117,13 @@ for subj=1:8
             end
             % Based on idx_hemi, decide if we are filling with big values LH or RH
             if idx_hemi == 1  % we're looking at LH, ignoring RH
-                temp(RH, :, :) = 1000;
+                temp(RH, :, :) = NaN;
             else              % we're looking at RH, ignoring LH
-                temp(LH, :, :) = 1000;
+                temp(LH, :, :) = NaN;
             end
 
             % Identify top N voxels and their locations
-            [~, idx_sort] = sort(temp(:));
+            [~, idx_sort] = sort(temp(:));  % vector of indices in ascending R2 order
             [x, y, z] = ind2sub(size(temp), idx_sort(1:N));
             worstN{idx_data, idx_hemi} = [x-d1(1)+1, y-d2(1)+1, z-d3(1)+1];
         end
