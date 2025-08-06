@@ -42,11 +42,10 @@ for subj=1:8
 
 			% ===== METHOD #1 =====
 			% Calculate partial correlations coefficients
-			corr = f_calc_partial_corr( ...
-                x(:, 1:(750*n_sess_per_subj(subj)))', ...                       % subcortical input is (n_trial, n_voxel)
-				data_cortical_target(1:(750*n_sess_per_subj(subj))) ...         % cortical target input is (n_trial, 1)
-                data_cortical_regressors(1:(750*n_sess_per_subj(subj)), :) ...  %, cortical regressors input is (n_trial, 13)
-            );  
+                % subcortical input is (n_trial, n_voxel)
+                % cortical target input is (n_trial, 1)
+                % cortical regressors input is (n_trial, 13)
+			corr = f_calc_partial_corr(x(:, 1:(750*n_sess_per_subj(subj)))', data_cortical_target(1:(750*n_sess_per_subj(subj))), data_cortical_regressors(1:(750*n_sess_per_subj(subj)), :));  
 
             % Create empty volume and subvolume to store results
 			subvol = zeros(56, 22, 27);
@@ -74,12 +73,7 @@ for subj=1:8
 				idxs_sub = idxs_sub(~isnan(idxs_sub));
 				idxs_cor = idxs_cor(~isnan(idxs_cor));
 				corrs(:, repeat) = ...
-                    f_calc_partial_corr( ...
-                        x(:, idxs_sub)', ...                       % subcortical input is (n_trial, n_voxel)
-                        data_cortical_target(idxs_cor) ...         % cortical target input is (n_trial, 1)
-                        data_cortical_regressors(idxs_cor, :) ...  %, cortical regressors input is (n_trial, 13)
-                    );  
-
+                    f_calc_partial_corr(x(:, idxs_sub)', data_cortical_target(idxs_cor), data_cortical_regressors(idxs_cor, :));  
 			end
 			corr = nanmean(corrs, 2);
 
