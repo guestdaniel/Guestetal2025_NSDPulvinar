@@ -22,7 +22,7 @@ function corrmat = f_calc_partial_corr(X, y, Z)
     corrmat = zeros(n_samp, 1);
    
     % Augment Z to include an intercept (first column)
-    Z = cat(2, ones(n_samp, 1), Z)
+    Z = cat(2, ones(n_samp, 1), Z);
 
     % Loop through all voxels, estimating for each the partial correlation between target region y and nuisance regions (columns of Z)
     for ii = 1:n_voxel
