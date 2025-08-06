@@ -36,6 +36,6 @@ function corrmat = f_calc_partial_corr(X, y, Z)
 
         % Now, find correlation coefficient between the two and square to get R2
         temp = corrcoef(e_x, e_y);
-        corrmat(ii) = temp^2;
+        corrmat(ii) = temp(1, 2)^2;
     end
 end
