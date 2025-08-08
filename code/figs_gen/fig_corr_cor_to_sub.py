@@ -282,7 +282,7 @@ def plot_fig_corr_cor_to_sub_group_consistency_maps():
     R2_bodies[THA_group == 0] = 0
 
     # Indicate which maps you want to load
-    #['V1', 'V2', 'V3', 'hV4', 'OFA', 'FFA', 'aTL-f', 'EBA', 'FBA', 'PPA', 'VWFA', 'MT', 'IPS', 'FEF']
+    map_labels = ['V1', 'V2', 'V3', 'hV4', 'OFA', 'FFA', 'aTL-f', 'EBA', 'FBA', 'PPA', 'VWFA', 'MT', 'IPS', 'FEF']
     maps_to_load = [0, 5, 8]
 
     # Load in and store average data
@@ -293,22 +293,24 @@ def plot_fig_corr_cor_to_sub_group_consistency_maps():
             # Load data
             temp.append(clean_data(nib.load(os.path.join(ff.dir_data, 'subj0' + str(subj + 1), 'mni',
                                                          'corr_cor_to_sub' '_hemi_' + str(0 + 1) + '_label_' + str(
-                                                             label + 1) + '_method_2.nii.gz')).get_fdata(),
-                                   THA[subj]))
+                                                             label + 1) + '_method_2.nii.gz')).get_fdata(), THA[subj]))
         maps.append(temp)
+    map_labels = [map_labels[i] for i in maps_to_load]  # only keep labels for maps we loaded
 
     # Create plot
-    views = ['coronal', 'sagittal']
-    idxs_slice = [95, 110]
-    lims_x = [(55, 135), (120, 70)]
-    lims_y = [(35, 115), (50, 100)]
-    for view, idx_slice, lim_x, lim_y in zip(views, idxs_slice, lims_x, lims_y):
+    view = 'coronal'
+    slices = [100, 97, 95]  # same slices as pRF figures
+    lims_x = (0 + 50, 182 - 50)
+    lims_y = (0 + 55, 182 - 80)
+    # lims_x = (55, 130)
+    # lims_y = (35, 115)
+    for idx_slice in slices:
         for idx_map, map in enumerate(maps):
             plt.figure(figsize=(2.0, 2.0))
             # Plot consistency map
             prob_map = np.sum(np.array(map) > 0.01, axis=0)
-            ff.plot_slice_with_overlay(T1, prob_map, idx_slice, view=view, mask=prob_map <= 0, lims_x=lim_x,
-                                    lims_y=lim_y, cmap2=ff.cmap_cons, clim2=(0, 8))
+            ff.plot_slice_with_overlay(T1, prob_map, idx_slice, view=view, mask=prob_map <= 0, lims_x=lims_x,
+                                    lims_y=lims_y, cmap2=ff.cmap_cons, clim2=(0, 8))
             # Calculate maxima of R2_contrast and R2_bodies in this view
             def plot_maxima(vol, hemi, idx_c):
                 vol = np.copy(vol)
@@ -335,11 +337,11 @@ def plot_fig_corr_cor_to_sub_group_consistency_maps():
                 plot_maxima(R2_faces, 'rh', 4)
             # Plot slice indicator lines
             if view == 'coronal':
-                plt.plot([110, 110], lim_y, color='dimgray', linestyle='dashed', linewidth=1.0)
+                plt.plot([110, 110], lims_y, color='dimgray', linestyle='dashed', linewidth=1.0)
             else:
-                plt.plot([95, 95], lim_y, color='dimgray', linestyle='dashed', linewidth=1.0)
+                plt.plot([95, 95], lims_y, color='dimgray', linestyle='dashed', linewidth=1.0)
             plt.gca().set_aspect('equal')
             plt.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.0)
-            plt.savefig(os.path.join('../figures', 'fig_corr_cor_to_sub_group_consistency_maps_' + view + '_' + str(idx_map) + '.png'), dpi=500)
+            plt.savefig(os.path.join('../figures', 'fig_corr_cor_to_sub_group_consistency_maps_view=' + view + '_seed=' + map_labels[idx_map] + 'slice=' + str(idx_slice) + '.png'), dpi=500)
     plt.close('all')
 
