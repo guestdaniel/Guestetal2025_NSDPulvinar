@@ -25,7 +25,7 @@ function corrmat = f_calc_partial_corr(X, y, Z)
     Z = cat(2, ones(n_samp, 1), Z);
 
     % Loop through all voxels, estimating for each the partial correlation between target region y and nuisance regions (columns of Z)
-    for ii = 1:n_voxel
+    parfor ii = 1:n_voxel
         % Print progress
         if mod(ii, 100) == 0
             fprintf('  Voxel %d of %d\n', ii, n_voxel);
