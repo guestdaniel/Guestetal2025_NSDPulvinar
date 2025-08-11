@@ -26,6 +26,10 @@ function corrmat = f_calc_partial_corr(X, y, Z)
 
     % Loop through all voxels, estimating for each the partial correlation between target region y and nuisance regions (columns of Z)
     for ii = 1:n_voxel
+        % Print progress
+        if mod(ii, 100) == 0
+            fprintf('  Voxel %d of %d\n', ii, n_voxel);
+        end
         % Calculate coefficients for linear regression between Z and y and Z and x
         b_star_y = Z \ y;
         b_star_x = Z \ X(:, ii);
