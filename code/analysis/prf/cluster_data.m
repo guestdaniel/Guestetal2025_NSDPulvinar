@@ -30,10 +30,11 @@ for subj=1:8
 
         % Embed data brick in MNI space
         vol = zeros(182, 218, 182);	
-        subvol(:) = corr(:);
+		subvol = zeros(56, 22, 27);
+        subvol(:) = cluster_ids(:);
         vol(coords_start(1):coords_end(1), ...
             coords_start(2):coords_end(2), ...
-            coords_start(3):coords_end(3)) = cluster_ids(:);
+            coords_start(3):coords_end(3)) = subvol;
 
         % Save to disk as nifti 
         fn = fullfile(data_dir, ['subj0' num2str(subj)], 'mni', ['beta_clusters_kmeans_k=' num2str(k) '.nii.gz']);
