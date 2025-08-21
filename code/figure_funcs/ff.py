@@ -4,6 +4,8 @@ import matplotlib
 from skimage import measure
 import nibabel as nib
 import os
+import scipy
+import random
 
 # Set location for data (we expect these functions to be executed in the `code` directory,
 # and here we define the other paths relative to that directory)
@@ -165,6 +167,93 @@ def calc_lat(angle, size, ecc):
             for kk in range(angle.shape[2]):
                 lat[ii, jj, kk] = calc_areas(angle[ii, jj, kk], size[ii, jj, kk], ecc[ii, jj, kk])
     return lat
+
+
+def char_prf_angle(an, r2, thal, slices=None, n_rep_shuffle=100):
+    # Note:
+        # indices [0:93, :, :] -> LH
+        # indices [94:, :, :] -> RH
+
+    plt.figure()
+
+    # Handle slices
+    if slices is None:
+        slices = [101, 100, 99, 98, 97, 96, 95, 94]
+    
+    # Determine matrix indiceds that are valid
+    hemi = np.ones(an.shape, dtype=bool)
+    hemi[94:, :, :] = False
+    idxs_valid = np.logical_and(r2 > 0.1, thal == 1)
+    idxs_valid = np.logical_and(idxs_valid, hemi)
+
+    # Configure angles we test
+    angles = np.linspace(0.0, 2*np.pi, 100)
+    x = np.cos(angles)
+    y = np.sin(angles)
+    vs = np.stack([x, y], axis=1)
+
+    # Create matrix to store result
+    results = np.zeros([len(angles), len(slices)])
+    results_shuffled = np.zeros([len(angles), len(slices), n_rep_shuffle])
+
+    # Loop through slices, for each, we want to project all angles onto unit vectors at different angles 
+    for i, slice in enumerate(slices):
+        # First, for this slice, determine which of its flattened indices are valid
+        idxs_valid_flat = np.squeeze(idxs_valid[:, slice, :]).flatten()
+
+        # Next, squeeze the data in the slice and subset to include only valid elements. We
+        # also determine and subset the cartesian coordintes of each element
+        ss = np.squeeze(an[:, slice, :])  # now, dim1 -> left-right, dim 2 -> inferior-superior
+        I, J = np.indices(ss.shape)    
+        idxs = np.stack([I.flatten(), J.flatten()], axis=1)
+        idxs = idxs[idxs_valid_flat]
+        ss = ss.flatten()[idxs_valid_flat]
+
+        # Now, for any possible angle, we determine how well angle estimates can be explained by linear regression between angle and the projected coordinates of the voxels onto that angle/vector
+        curve = np.zeros(len(angles))
+        for j, v in enumerate(vs):
+            # Determine projections of coordinates
+            v_mag = np.linalg.norm(v)
+            scalar_projections = np.dot(idxs, v) / v_mag
+
+            # Correlate projections with true angles
+            _, _, r_value, _, _= scipy.stats.linregress(scalar_projections, ss)
+            curve[j] = np.arctan(r_value)/(1/np.sqrt(len(ss) - 3))
+
+        results[:, i] = curve
+
+        # Now, we repeat the above process on shuffled copies of the data
+        for idx_rep in range(n_rep_shuffle):
+            idxs_shuffle = random.sample(range(len(ss)), len(ss))
+            ss_shuffled = ss[idxs_shuffle]
+            curve = np.zeros(len(angles))
+            for j, v in enumerate(vs):
+                # Determine projections of coordinates
+                v_mag = np.linalg.norm(v)
+                scalar_projections = np.dot(idxs, v) / v_mag
+
+                # Correlate projections with true angles
+                _, _, r_value, _, _= scipy.stats.linregress(scalar_projections, ss_shuffled)
+                curve[j] = np.arctan(r_value)/(1/np.sqrt(len(ss) - 3))
+            
+            results_shuffled[:, i, idx_rep] = curve
+
+    results_shuffled = np.mean(results_shuffled, 2)
+
+
+    plt.subplot(1, 2, 1)
+    deltay = 0.5
+    deltax = np.diff(angles)[1]
+    plt.imshow(results.transpose(), aspect='auto', extent=[0-deltax, 2*np.pi-deltax, 0-deltay, len(slices)-deltay], vmin=-6.0, vmax=6.0, cmap='RdBu', interpolation='none')
+    plt.xticks([0, np.pi/2, np.pi, 3*np.pi/2], ["0", "pi/2", "pi", "3pi/2"])
+    plt.yticks(range(0, len(slices), 1), slices)
+    plt.colorbar()
+
+    plt.subplot(1, 2, 2)
+    plt.imshow(results_shuffled.transpose(), aspect='auto', extent=[0-deltax, 2*np.pi-deltax, 0-deltay, len(slices)-deltay], vmin=-6.0, vmax=6.0, cmap='RdBu', interpolation='none')
+    plt.xticks([0, np.pi/2, np.pi, 3*np.pi/2], ["0", "pi/2", "pi", "3pi/2"])
+    plt.yticks(range(0, len(slices), 1), slices)
+    plt.colorbar()
 
 
 def plot_prf_parameter_sequence(t1, r2, an, an_orig, ec, sz, thal, roi, slices=None):

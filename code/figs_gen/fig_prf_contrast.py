@@ -72,6 +72,26 @@ def fig_prf_contrast_maps():
     plt.savefig(os.path.join('../figures', 'fig_contrast_mainmaps_updated.png'))
 
 
+def fig_char_contrast_maps():
+    # Import data volumes
+    T1 = ff.load_volume(volume='T1')
+    R2 = ff.load_volume(volume='contrastNEW_R2')
+    AN = ff.load_volume(volume='contrastNEW_angle')
+    EC = ff.load_volume(volume='contrastNEW_eccentricity')
+    SZ = ff.load_volume(volume='contrastNEW_size')
+    ROI = ff.load_volume(volume='thalamus')
+
+    # Transform data into np.arrays and transform as necessary
+    ROI = np.array(ROI)
+    T1 = np.mean(np.array(T1), axis=0)
+    R2 = np.median(np.array(R2), axis=0)
+    AN = np.real(np.angle(np.nanmedian(np.exp(1j * np.copy(AN)*np.pi/180), axis=0))*180/np.pi)
+    EC = np.median(np.array(EC), axis=0)
+    SZ = np.median(np.array(SZ), axis=0)
+    THA = nib.load(os.path.join(ff.dir_data, 'group', 'mni', 'postthalamus.nii.gz')).get_fdata()
+    ff.char_prf_angle(AN, R2, THA)
+
+
 def fig_prf_contrast_rf_coverage():
     # Import and calculate mean images
     T1 = ff.load_volume(volume='T1')

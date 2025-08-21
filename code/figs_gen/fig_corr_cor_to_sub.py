@@ -166,6 +166,64 @@ def plot_fig_corr_cor_to_sub_ventral_stream_avg_group_contours():
     cbar.set_ticklabels([x for x, ii in zip(cortical_roi_labels, range(14)) if ii in [0, 1, 2, 3, 4, 5]])
 
 
+# Partial correlation variant of above function
+def plot_fig_corr_cor_to_sub_ventral_stream_avg_group_contours_partial():
+    # Load anatomy and ROI labels
+    T1 = ff.load_volume(volume='T1')
+    ROI = ff.load_volume(volume='thalamus')
+    THA = ff.load_volume(volume='postthalamus')
+    T1 = np.mean(np.array(T1), axis=0)
+
+    # Create list to store average correlation maps
+    maps_mean = []
+
+    # Loop over labels (i.e., cortical seed areas)
+    for label in range(14):
+        temp = []
+
+        # Loop over subjects
+        for subj in range(8):
+            # Load this subject's data
+            temp.append(clean_data(nib.load(os.path.join(ff.dir_data, 'subj0' + str(subj + 1), 'mni', 'corr_cor_to_sub' '_hemi_' + str(0 + 1) + '_label_' + str(label + 1) + '_method_2_partial.nii.gz')).get_fdata(), THA[subj]))
+
+        # Average acrosss subjects and append to list of maps
+        maps_mean.append(np.mean(np.array(temp), axis=0))
+
+    # Turn list into array
+    maps_mean = np.array(maps_mean)
+
+    # Set up colors and labels
+    cortical_roi_labels = ['V1', 'V2', 'V3', 'hV4', 'OFA', 'FFA', 'aTL-f', 'EBA', 'FBA', 'PPA', 'VWFA', 'MT', 'IPS', 'FEF']
+
+    # Plot
+    for view, limx, limy, project_side in zip(['sagittal', 'axial', 'coronal'],
+                                              [(107, 88), (60, 85), (63, 82)],
+                                              [(60, 85), (88, 108), (60, 85)],
+                                              ['left', 'right', 'left']):
+        # Create plot
+        fig, ax = plt.subplots(figsize=(3, 3))
+        # Plot plot
+        plot_correlation_contours_with_com(ax, maps_mean, ROI, labels=[0, 1, 2, 3, 4, 5],
+                                           colors=ff.cmap_corr(np.linspace(0, 1, 6)), view=view, xlims=limx,
+                                           ylims=limy, project=True, project_side_x=project_side,
+                                           project_side_y=project_side)
+        plt.gca().get_xaxis().set_visible(False)
+        plt.gca().get_yaxis().set_visible(False)
+        plt.gca().set_aspect('equal')
+        plt.tight_layout(pad=0)
+        plt.savefig(os.path.join('../figures', 'fig_corr_cor_to_sub_mip_group_avg_contours_ventral_stream_' + view + '_partial.png'),
+                    dpi=300)
+        plt.close()
+
+    # a = np.array([[0, 1]])
+    # plt.figure(figsize=(1, 2.25))
+    # img = plt.imshow(a, cmap=matplotlib.colors.ListedColormap(list(matplotlib.cm.Set3([0, 1, 2, 3, 4, 5]))))
+    # plt.gca().set_visible(False)
+    # cax = plt.axes([0.2, 0.1, 0.2, 0.8])
+    # cbar = plt.colorbar(cax=cax, ticks=np.linspace(1 / 6 / 2, 1 - 1 / 6 / 2, 6))
+    # cbar.set_ticklabels([x for x, ii in zip(cortical_roi_labels, range(14)) if ii in [0, 1, 2, 3, 4, 5]])
+
+
 def plot_fig_corr_cor_to_sub_ventral_stream_avg_group_contours_ap_color_code():
     # Load anatomy and ROI labels
     ROI = ff.load_volume(volume='thalamus')
