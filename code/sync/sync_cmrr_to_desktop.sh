@@ -10,6 +10,13 @@ scp dguest@surly.cmrr.umn.edu:~/Guestetal2025_NSDPulvinar/figures_bulk/*suppleme
 # Move cluster labels manually for a test subject, later we use tar method below
 scp dguest@surly.cmrr.umn.edu:/home/surly-raid3/dguest-data/Guestetal2021_data/subj01/mni/beta_clusters*.nii.gz data\prepared\subj01\mni
 scp dguest@surly.cmrr.umn.edu:/home/surly-raid3/dguest-data/Guestetal2021_data/subj02/mni/beta_clusters*.nii.gz data\prepared\subj02\mni
+scp dguest@surly.cmrr.umn.edu:/home/surly-raid3/dguest-data/Guestetal2021_data/subj03/mni/beta_clusters*.nii.gz data\prepared\subj03\mni
+scp dguest@surly.cmrr.umn.edu:/home/surly-raid3/dguest-data/Guestetal2021_data/subj04/mni/beta_clusters*.nii.gz data\prepared\subj04\mni
+scp dguest@surly.cmrr.umn.edu:/home/surly-raid3/dguest-data/Guestetal2021_data/subj05/mni/beta_clusters*.nii.gz data\prepared\subj05\mni
+scp dguest@surly.cmrr.umn.edu:/home/surly-raid3/dguest-data/Guestetal2021_data/subj06/mni/beta_clusters*.nii.gz data\prepared\subj06\mni
+scp dguest@surly.cmrr.umn.edu:/home/surly-raid3/dguest-data/Guestetal2021_data/subj07/mni/beta_clusters*.nii.gz data\prepared\subj07\mni
+scp dguest@surly.cmrr.umn.edu:/home/surly-raid3/dguest-data/Guestetal2021_data/subj08/mni/beta_clusters*.nii.gz data\prepared\subj08\mni
+
 
 # tar all data from `data_dir` and then copy and untar va scp
 #  on remote side:

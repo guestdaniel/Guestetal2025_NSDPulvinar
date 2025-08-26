@@ -2,9 +2,8 @@
 %
 % Computes correlations between responses in a block containing the visual thalamus and
 % surrounding tissue and responses in average cortical seeds. This version of the script is
-% based on the first round of reviews and attempts to use partial correlation to isolate
-% unique contributions of cortical seed areas. It has been superceded by 
-% `s03b_compute_correlations_glm.m` and `s03b_compute_correlations_semipartial.m`
+% based on the first round of reviews and attempts to use GLMs to decompose subcortical 
+% voxels as linear combinations of cortical seed responses.
 %
 % Depends
 %	group/fsaverage/compiled_cortical_betas.mat
@@ -47,7 +46,7 @@ for subj=4:8  % skip subj 1-3 who are already done
                 % subcortical input is (n_trial, n_voxel)
                 % cortical target input is (n_trial, 1)
                 % cortical regressors input is (n_trial, 13)
-			corr = f_calc_partial_corr(x(:, 1:(750*n_sess_per_subj(subj)))', data_cortical_target(1:(750*n_sess_per_subj(subj))), data_cortical_regressors(1:(750*n_sess_per_subj(subj)), :));  
+			corr = f_calc_semipartial_corr(x(:, 1:(750*n_sess_per_subj(subj)))', data_cortical_target(1:(750*n_sess_per_subj(subj))), data_cortical_regressors(1:(750*n_sess_per_subj(subj)), :));  
 
             % Create empty volume and subvolume to store results
 			subvol = zeros(56, 22, 27);
@@ -75,7 +74,7 @@ for subj=4:8  % skip subj 1-3 who are already done
 				idxs_sub = idxs_sub(~isnan(idxs_sub));
 				idxs_cor = idxs_cor(~isnan(idxs_cor));
 				corrs(:, repeat) = ...
-                    f_calc_partial_corr(x(:, idxs_sub)', data_cortical_target(idxs_cor), data_cortical_regressors(idxs_cor, :));  
+                    f_calc_semipartial_corr(x(:, idxs_sub)', data_cortical_target(idxs_cor), data_cortical_regressors(idxs_cor, :));  
 			end
 			corr = nanmean(corrs, 2);
 
