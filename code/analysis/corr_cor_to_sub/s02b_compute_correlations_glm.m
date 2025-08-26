@@ -17,7 +17,7 @@ load([data_dir 'group/fsaverage/compiled_cortical_betas.mat']);  % size (30000, 
 n_sess_per_subj = [40, 40, 32, 30, 40, 32, 40, 30];
 
 % Loop through subjects, hemispheres, and cortical ROI labels
-for subj=4:8  % skip subj 1-3 who are already done
+for subj=1:8 
 	% Load subcortical data and reshape to desired format
 	load(['/home/surly-raid3/dguest-data/subcortical/functional/betas/' 'subj' sprintf('%02d', subj) '_subcortical_betas_MNI_fast.mat']);
 	x = storage_ind;
@@ -40,6 +40,8 @@ for subj=4:8  % skip subj 1-3 who are already done
             % Break cortical data into seed of interest (indexed by label) and other seeds, which will be treated as regressors in partial correlation
             data_cortical_target = squeeze(data_cortical(:, label));
             data_cortical_regressors = data_cortical(:, 1:14 ~= label);
+
+            % TODO: RESOLVE HOW TO STORE BETA WEIGHTS!! ---> mat file collapsed into linear indices?
 
 			% ===== METHOD #1 =====
 			% Calculate partial correlations coefficients
