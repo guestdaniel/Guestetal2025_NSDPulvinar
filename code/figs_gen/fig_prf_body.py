@@ -89,6 +89,7 @@ def fig_char_body_maps():
     SZ = np.median(np.array(SZ), axis=0)
     THA = nib.load(os.path.join(ff.dir_data, 'group', 'mni', 'postthalamus.nii.gz')).get_fdata()
     ff.char_prf_angle(AN, R2, THA)
+    plt.savefig(os.path.join('../figures', 'fig_body_angle_analysis.png'))
 
 
 def fig_prf_body_rf_coverage():

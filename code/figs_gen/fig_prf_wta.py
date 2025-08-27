@@ -83,8 +83,7 @@ def fig_prf_wta_maps():
     plt.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.1)
     plt.savefig(os.path.join('../figures', 'fig_prf_wta_maps.png'), dpi=300)
 
-
-def fig_prf_kmeans_maps_vs_N():
+def fig_prf_kmeans_maps_vs_N(mask=True):
     """
     Plots the categorical labels for each voxel based on k-means clustering versus N cluster.
 
@@ -96,78 +95,53 @@ def fig_prf_kmeans_maps_vs_N():
     """
     # Load and calculate an `R2_max` map that computes, for each voxel, the highest variance 
     # explained by any pRF model... we use this to mask out non-visually-responsive areas
-    # of the pulvinar
+    # of the pulvinar; this is based on the group average so that we get the same mask for 
+    # every subject
     R2_maps = list()
     maps = ['contrastNEW', 'salience', 'foregroundauto', 'bodyauto', 'faceauto']
     for map in maps:
         R2_maps.append(np.mean(np.array(ff.load_volume(volume=map + '_R2')), axis=0))
     R2_max = np.max(np.array(R2_maps), axis=0)
 
-    # Construct figure 1
+    # Set some parameters for figure
     slices = [100, 97, 95, 93]
     n_slice = len(slices)
-    plt.figure(figsize=(12, 8.5))
-    for idx_N, N in enumerate([2, 5, 10, 20, 50]):
-        # Load each subject's map into the list `data`
-        data = list()
-        for idx_subj in range(1):  # currently only using subj01
-            fn = os.path.join(ff.dir_data, 'subj0' + str(idx_subj+1), 'mni', 'beta_clusters_kmeans_k=' + str(N) + '.nii.gz')
-            temp = nib.load(fn).get_fdata()
-            data.append(temp)
-        T1 = np.mean(np.array(ff.load_volume(volume='T1')), axis=0)
-        THA = nib.load(os.path.join(ff.dir_data, 'group', 'mni', 'postthalamus.nii.gz')).get_fdata()
+
+    # Loop through subjects and create figure for each
+    for idx_subj in range(8):
+        print("Loading data for subj0" + str(idx_subj+1))
+        # Create figure
+        plt.figure(figsize=(12, 8.5))
+
+        # Load supporting data for this subject
+        T1 = ff.load_volume([idx_subj+1], volume='T1')[0]
+        THA = ff.load_volume([idx_subj+1], volume='postthalamus')[0]
         roi = ff.load_volume(volume='thalamus')
 
-        # Plot data into rows
-        for idx_slice, slice in enumerate(slices):
-            # R2
-            plt.subplot(5, n_slice, idx_slice+1 + (idx_N * 4))
-            ff.plot_slice_with_overlay(T1, data[0], slice, 'coronal', np.logical_or(R2_max < 0.2, THA != 1),
-                                    (0 + 50, 182 - 50), (0 + 55, 182 - 80), cmap2='Accent', clim2=(0, 4))
-            ff.plot_roi_overlay(roi, 'coronal', slice, outline_width=2.0)
-    plt.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.1)
-    plt.savefig(os.path.join('../figures', 'fig_prf_kmeans_maps.png'), dpi=300)
+        # Loop through possible N
+        for idx_N, N in enumerate([2, 5, 10, 20, 50]):
+            # Load cluster labels for this subject
+            data = nib.load(os.path.join(ff.dir_data, 'subj0' + str(idx_subj+1), 'mni', 'beta_clusters_kmeans_k=' + str(N) + '.nii.gz')).get_fdata()
 
-def fig_prf_kmeans_maps_vs_N_nomask():
-    """
-    Plots the categorical labels for each voxel based on k-means clustering versus N cluster.
+            # Plot data into rows
+            for idx_slice, slice in enumerate(slices):
+                # R2
+                plt.subplot(5, n_slice, (idx_slice + 1) + (idx_N * 4))
 
-    This function loads the cluster label files from each subject's k-means clustering 
-    data produced by `code/analysis/prf/cluster_data.m` and stored in 
-    `.../subj0x/mni/beta_clusters_*.nii.gz` and plots them in a similar style to the WTA
-    maps. This function plots the cluster labels as a function of the number of requested
-    clusters.
-    """
-    # Load and calculate an `R2_max` map that computes, for each voxel, the highest variance 
-    # explained by any pRF model... we use this to mask out non-visually-responsive areas
-    # of the pulvinar
-    R2_maps = list()
-    maps = ['contrastNEW', 'salience', 'foregroundauto', 'bodyauto', 'faceauto']
-    for map in maps:
-        R2_maps.append(np.mean(np.array(ff.load_volume(volume=map + '_R2')), axis=0))
-    R2_max = np.max(np.array(R2_maps), axis=0)
+                if mask:
+                    mat_mask = np.logical_or(R2_max < 0.2, THA != 1)
+                else:
+                    mat_mask = THA != 1
 
-    # Construct figure 1
-    slices = [100, 97, 95, 93]
-    n_slice = len(slices)
-    plt.figure(figsize=(12, 8.5))
-    for idx_N, N in enumerate([2, 5, 10, 20, 50]):
-        # Load each subject's map into the list `data`
-        data = list()
-        for idx_subj in range(1):  # currently only using subj01
-            fn = os.path.join(ff.dir_data, 'subj0' + str(idx_subj+1), 'mni', 'beta_clusters_kmeans_k=' + str(N) + '.nii.gz')
-            temp = nib.load(fn).get_fdata()
-            data.append(temp)
-        T1 = np.mean(np.array(ff.load_volume(volume='T1')), axis=0)
-        THA = nib.load(os.path.join(ff.dir_data, 'group', 'mni', 'postthalamus.nii.gz')).get_fdata()
-        roi = ff.load_volume(volume='thalamus')
+                ff.plot_slice_with_overlay(T1, data, slice, 'coronal', mat_mask,
+                                        (0 + 50, 182 - 50), (0 + 55, 182 - 80), cmap2='Accent', clim2=(0, 4))
+                ff.plot_roi_overlay(roi, 'coronal', slice, outline_width=2.0)
 
-        # Plot data into rows
-        for idx_slice, slice in enumerate(slices):
-            # R2
-            plt.subplot(5, n_slice, idx_slice+1 + (idx_N * 4))
-            ff.plot_slice_with_overlay(T1, data[0], slice, 'coronal', np.logical_or(R2_max < 0.0, THA != 1),
-                                    (0 + 50, 182 - 50), (0 + 55, 182 - 80), cmap2='Accent', clim2=(0, 4))
-            ff.plot_roi_overlay(roi, 'coronal', slice, outline_width=2.0)
-    plt.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.1)
-    plt.savefig(os.path.join('../figures', 'fig_prf_kmeans_maps_nomask.png'), dpi=300)
+        # Plot figure for this subject to disk
+        print("Saving figure for subj0" + str(idx_subj+1))
+        plt.tight_layout(pad=0.0, h_pad=0.0, w_pad=0.1)
+        if mask:
+            fn = 'fig_prf_kmeans_maps_masked_subj0' + str(idx_subj+1) + '.png'
+        else:
+            fn = 'fig_prf_kmeans_maps_unmasked_subj0' + str(idx_subj+1) + '.png'
+        plt.savefig(os.path.join('../figures', fn), dpi=300)

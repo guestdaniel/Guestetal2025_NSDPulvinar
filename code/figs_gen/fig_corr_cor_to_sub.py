@@ -184,7 +184,7 @@ def plot_fig_corr_cor_to_sub_ventral_stream_avg_group_contours_partial():
         # Loop over subjects
         for subj in range(8):
             # Load this subject's data
-            temp.append(clean_data(nib.load(os.path.join(ff.dir_data, 'subj0' + str(subj + 1), 'mni', 'corr_cor_to_sub' '_hemi_' + str(0 + 1) + '_label_' + str(label + 1) + '_method_2_partial.nii.gz')).get_fdata(), THA[subj]))
+            temp.append(clean_data(nib.load(os.path.join(ff.dir_data, 'subj0' + str(subj + 1), 'mni', 'corr_cor_to_sub' '_hemi_' + str(0 + 1) + '_label_' + str(label + 1) + '_method_2_semipartial.nii.gz')).get_fdata(), THA[subj]))
 
         # Average acrosss subjects and append to list of maps
         maps_mean.append(np.mean(np.array(temp), axis=0))
@@ -211,7 +211,7 @@ def plot_fig_corr_cor_to_sub_ventral_stream_avg_group_contours_partial():
         plt.gca().get_yaxis().set_visible(False)
         plt.gca().set_aspect('equal')
         plt.tight_layout(pad=0)
-        plt.savefig(os.path.join('../figures', 'fig_corr_cor_to_sub_mip_group_avg_contours_ventral_stream_' + view + '_partial.png'),
+        plt.savefig(os.path.join('../figures', 'fig_corr_cor_to_sub_mip_group_avg_contours_ventral_stream_' + view + '_semipartial.png'),
                     dpi=300)
         plt.close()
 
