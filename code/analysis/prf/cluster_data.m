@@ -27,7 +27,7 @@ for subj=1:8
 
     % Apply k-means clustering to the PCA loadings/scores
     for k = [2, 5, 10, 20, 50]
-        cluster_ids = kmeans(s, k, 'MaxIter', 500, 'Replicates', 5);  % kmeans takes (n_voxel, n_component) -> (n_voxel, cluster_id)
+        cluster_ids = kmeans(s, k, 'MaxIter', 1000, 'Replicates', 5);  % kmeans takes (n_voxel, n_component) -> (n_voxel, cluster_id)
 
         % Embed data brick in MNI space
         vol = zeros(182, 218, 182);	
