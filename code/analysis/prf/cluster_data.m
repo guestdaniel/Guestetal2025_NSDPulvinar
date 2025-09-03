@@ -48,7 +48,11 @@ for subj=1:8
             % Embed data brick in MNI space, branching based on whether we're filling in the
             % LH or RH results based on the current value of `hemi`
             vol = nan(182, 218, 182);	
-            subvol = zeros(56, 22, 27);
+            if strcmp(hemi, 'lh')
+                subvol = zeros(length(LH_sub), 22, 27);
+            else
+                subvol = zeros(length(RH_sub), 22, 27);
+            end
             subvol(:) = cluster_ids(:);
             if strcmp(hemi, 'lh')
                 vol(LH_sub, ...
