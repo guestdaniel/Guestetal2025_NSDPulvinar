@@ -8,12 +8,13 @@
 % Handle paths and settings 
 config_Guestetal2025_NSDPulvinar;
 n_sess_per_subj = [40, 40, 32, 30, 40, 32, 40, 30];
+hemis = {'lh', 'rh'};
 
 % Loop through subjects
 for subj=1:8
-    for hemi=['lh', 'rh']
+    for idx_hemi=[1]
         % Print progress
-        fprintf('Subj = %d Hemi = %s\n', subj, hemi)
+        fprintf('Subj = %d Hemi = %s\n', subj, hemis{idx_hemi})
 
         % Load subcortical data
         load(['/home/surly-raid3/dguest-data/subcortical/functional/betas/' 'subj' sprintf('%02d', subj) '_subcortical_betas_MNI_fast.mat']);
@@ -29,7 +30,7 @@ for subj=1:8
         % Reshape data
         x = storage_ind; 
         x = permute(x, [2, 3, 4, 1, 5]);  % convert to (n_x=56, n_y=22, n_z=27, n_sess=n_sess_per_subj(subj), n_trial=750)
-        if strcmp(hemi, 'lh')
+        if idx_hemi == 1
             x = x(LH_sub, :, :, :, :);
         else
             x = x(RH_sub, :, :, :, :);
@@ -45,19 +46,19 @@ for subj=1:8
         % Note matrix s is size (n_voxel, n_component)
 
         % Apply k-means clustering to the PCA loadings/scores
-        for k = [2, 5, 10, 20, 50]
+        for k = [2, 5, 10, 20]
             cluster_ids = kmeans(s, k, 'MaxIter', 1000, 'Replicates', 10);  % kmeans takes (n_voxel, n_component) -> (n_voxel, cluster_id)
 
             % Embed data brick in MNI space, branching based on whether we're filling in the
             % LH or RH results based on the current value of `hemi`
             vol = nan(182, 218, 182);	
-            if strcmp(hemi, 'lh')
+            if idx_hemi == 1
                 subvol = zeros(length(LH_sub), 22, 27);
             else
                 subvol = zeros(length(RH_sub), 22, 27);
             end
             subvol(:) = cluster_ids(:);
-            if strcmp(hemi, 'lh')
+            if idx_hemi == 1
                 vol(LH_sub, ...
                     coords_start(2):coords_end(2), ...
                     coords_start(3):coords_end(3)) = subvol;
@@ -68,7 +69,7 @@ for subj=1:8
             end
 
             % Save to disk as nifti 
-            fn = fullfile(data_dir, ['subj0' num2str(subj)], 'mni', ['beta_clusters_kmeans_hemi=' hemi '_k=' num2str(k) '.nii.gz']);
+            fn = fullfile(data_dir, ['subj0' num2str(subj)], 'mni', ['beta_clusters_kmeans_hemi=' hemis{idx_hemi} '_k=' num2str(k) '.nii.gz']);
             nsd_savenifti(vol, [1, 1, 1], fn, 1, [92, 127, 73]);
         end
     end
