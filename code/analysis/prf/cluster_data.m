@@ -12,6 +12,9 @@ n_sess_per_subj = [40, 40, 32, 30, 40, 32, 40, 30];
 % Loop through subjects
 for subj=1:8
     for hemi=['lh', 'rh']
+        % Print progress
+        fprintf('Subj = %d Hemi = %s\n', subj, hemi)
+
         % Load subcortical data
         load(['/home/surly-raid3/dguest-data/subcortical/functional/betas/' 'subj' sprintf('%02d', subj) '_subcortical_betas_MNI_fast.mat']);
 
