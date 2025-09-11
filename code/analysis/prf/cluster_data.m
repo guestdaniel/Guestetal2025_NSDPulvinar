@@ -12,7 +12,7 @@ hemis = {'lh', 'rh'};
 
 % Loop through subjects
 for subj=1:8
-    for idx_hemi=[1]
+    for idx_hemi=[2]
         % Print progress
         fprintf('Subj = %d Hemi = %s\n', subj, hemis{idx_hemi})
 
