@@ -32,6 +32,7 @@ def run_colorbars():
     colorbar_laterality()
     colorbar_pearsons()
     colorbar_consistency()
+    colorbar_corr_decomp()
 
 # Function to generate components of Figure 2 (winner-take-all pRF comparison)
 def run_fig2():
@@ -44,11 +45,19 @@ def run_fig2():
 
 # Function to generate components of Figure 3 (pRF spatial coding)
 def run_fig3():
+    # Main contrast pRF figure
     fig_prf_contrast_anatomy()
     fig_prf_contrast_maps()
     fig_prf_contrast_rf_coverage()
+
+    # Main body pRF figure
     fig_prf_body_maps()
     fig_prf_body_rf_coverage()
+
+def run_supp_fig_pRF():
+    # Characterization of pRF maps supplemental figure for LH
+    fig_char_contrast_maps()
+    fig_char_body_maps()
 
 def run_fig6():
     plot_fig_corr_cor_to_sub_ventral_stream_avg_group_contours()

@@ -215,13 +215,121 @@ def plot_fig_corr_cor_to_sub_ventral_stream_avg_group_contours_partial():
                     dpi=300)
         plt.close()
 
-    # a = np.array([[0, 1]])
-    # plt.figure(figsize=(1, 2.25))
-    # img = plt.imshow(a, cmap=matplotlib.colors.ListedColormap(list(matplotlib.cm.Set3([0, 1, 2, 3, 4, 5]))))
-    # plt.gca().set_visible(False)
-    # cax = plt.axes([0.2, 0.1, 0.2, 0.8])
-    # cbar = plt.colorbar(cax=cax, ticks=np.linspace(1 / 6 / 2, 1 - 1 / 6 / 2, 6))
-    # cbar.set_ticklabels([x for x, ii in zip(cortical_roi_labels, range(14)) if ii in [0, 1, 2, 3, 4, 5]])
+
+def cor_to_sub_load_standard(THA):
+    # Load in and store average data
+    maps_mean = []
+    for label in range(14):
+        temp = []
+        for subj in range(8):
+            # Load data
+            temp.append(clean_data(nib.load(os.path.join(ff.dir_data, 'subj0' + str(subj + 1), 'mni',
+                                                         'corr_cor_to_sub' '_hemi_' + str(0 + 1) + '_label_' + str(
+                                                             label + 1) + '_method_2.nii.gz')).get_fdata(),
+                                   THA[subj]))
+        maps_mean.append(np.mean(np.array(temp), axis=0))
+    maps_mean = np.array(maps_mean)
+    return maps_mean
+
+
+def cor_to_sub_load_semipartial(THA):
+    # Create list to store average correlation maps
+    maps_mean = []
+
+    # Loop over labels (i.e., cortical seed areas)
+    for label in range(14):
+        temp = []
+
+        # Loop over subjects
+        for subj in range(8):
+            # Load this subject's data
+            temp.append(clean_data(nib.load(os.path.join(ff.dir_data, 'subj0' + str(subj + 1), 'mni', 'corr_cor_to_sub' '_hemi_' + str(0 + 1) + '_label_' + str(label + 1) + '_method_2_semipartial.nii.gz')).get_fdata(), THA[subj]))
+
+        # Average acrosss subjects and append to list of maps
+        maps_mean.append(np.mean(np.array(temp), axis=0))
+
+    # Turn list into array
+    maps_mean = np.array(maps_mean)
+    return maps_mean
+
+
+def cor_to_sub_load_glm(THA):
+    # First, we need to load in all of the regular correlation analyses
+    # Create list to store average correlation maps
+    maps_mean = []
+
+    # Loop over labels (i.e., cortical seed areas)
+    for label in range(14):
+        temp = []
+
+        # Loop over subjects
+        for subj in range(8):
+            # Load this subject's data (note we look for label+1+1 because +1 for 1-based indexing and +1 for intercept we don't care about)
+            temp.append(clean_data(nib.load(os.path.join(ff.dir_data, 'subj0' + str(subj + 1), 'mni', 'corr_cor_to_sub_hemi_1_method_2_glm_beta=' + str(label+1+1) + '.nii.gz')).get_fdata(), THA[subj]))
+
+        # Average acrosss subjects and append to list of maps
+        maps_mean.append(np.mean(np.array(temp), axis=0))
+
+    # Transform maps_mean into a numpy array
+    maps_mean = np.array(maps_mean)
+    return maps_mean
+
+
+def plot_fig_corr_cor_to_sub_ventral_stream_avg_glm_decomposition():
+    # Load anatomy and ROI labels
+    T1 = ff.load_volume(volume='T1')
+    ROI = ff.load_volume(volume='thalamus')
+    THA = ff.load_volume(volume='postthalamus')
+    T1 = np.mean(np.array(T1), axis=0)
+
+    # Determine AR of each subplot
+    deltax = (182-50)-50
+    deltay = (182-80)-55
+    ar = deltax/deltay
+
+    # Set up colors and labels
+    cortical_roi_labels = ['V1', 'V2', 'V3', 'hV4', 'OFA', 'FFA', 'aTL-f', 'EBA', 'FBA', 'PPA', 'VWFA', 'MT', 'IPS', 'FEF']
+
+    # Load GLM results
+    corr_standard = cor_to_sub_load_standard(THA)
+    corr_semipartial = cor_to_sub_load_semipartial(THA)
+    corr_glm = cor_to_sub_load_glm(THA)
+
+    # Set slices we're going to look at
+    slices = [100, 97, 95]
+    n_slice = len(slices)
+
+    # Create figure
+    plt.figure(figsize=(14*ar*3, 3*3*2))
+
+    # Loop over slices
+    for idx_analysis, analysis in enumerate([corr_standard, corr_glm]):
+        # Determine maximum value for this map
+        maxval = 0.8 * np.max(np.abs(analysis))
+        print(str(idx_analysis) + "-> " + str(maxval))
+
+        for idx_slice, slice in enumerate(slices):
+            for idx_map in range(14):
+                # Determine row
+                idx_row = (idx_analysis*3) + idx_slice
+
+                # Create subplot
+                plt.subplot(n_slice*2, 14, 14*idx_row + idx_map + 1)
+
+                # Plot slice
+                ff.plot_slice_with_overlay(
+                    T1, 
+                    np.squeeze(analysis[idx_map, :, :, :]), 
+                    slice, 
+                    'coronal', 
+                    np.zeros(THA[0].shape), 
+                    (0 + 50, 182 - 50), (0 + 55, 182 - 80), 
+                    cmap2=ff.cmap_r, 
+                    clim2=(-maxval, maxval)
+                )
+                ff.plot_roi_overlay(ROI, 'coronal', slice)
+
+    plt.gcf().tight_layout(pad=0, h_pad=0, w_pad=0)
 
 
 def plot_fig_corr_cor_to_sub_ventral_stream_avg_group_contours_ap_color_code():

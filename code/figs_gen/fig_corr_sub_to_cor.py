@@ -150,9 +150,9 @@ def plot_fig_corr_sub_to_cor_pRF_data():
         ang = AN[subj][contrast_peak[0], contrast_peak[1], contrast_peak[2]]  
         ecc = EC[subj][contrast_peak[0], contrast_peak[1], contrast_peak[2]]
         siz = SZ[subj][contrast_peak[0], contrast_peak[1], contrast_peak[2]]
-        add_pRF_outline(ax, ang, ecc, siz, color=[1, 0, 0], include_decorations=(subj == 0))
+        add_pRF_outline(ax, ang, ecc, siz, color=[0.8, 0.2, 0.6, 1.0], include_decorations=(subj == 0))
 
-    # Extract pRF data for the contrast peak and add to plot
+    # Extract pRF data for the body peak and add to plot
     AN = ff.load_volume(volume='bodyauto_angle', space='func1mm')
     EC = ff.load_volume(volume='bodyauto_eccentricity', space='func1mm')
     SZ = ff.load_volume(volume='bodyauto_size', space='func1mm')
@@ -162,7 +162,7 @@ def plot_fig_corr_sub_to_cor_pRF_data():
         ang = AN[subj][body_peak[0], body_peak[1], body_peak[2]]
         ecc = EC[subj][body_peak[0], body_peak[1], body_peak[2]]
         siz = SZ[subj][body_peak[0], body_peak[1], body_peak[2]]
-        add_pRF_outline(ax, ang, ecc, siz, color=[0, 0, 1], include_decorations=(subj == 0))
+        add_pRF_outline(ax, ang, ecc, siz, color=[0.9, 0.8, 0.0, 1.0], include_decorations=(subj == 0))
 
     fig.show()
     plt.savefig(os.path.join('../figures', 'fig_corr_sub_to_cor_seed_pRF_properties.png'), dpi=300)
@@ -189,5 +189,5 @@ def add_pRF_outline(ax, ang, ecc, siz, color=[1, 0, 0], include_decorations=True
     # Add pRF outline
     ax.plot(ecc * np.cos(ang * np.pi / 180), ecc * np.sin(ang * np.pi / 180), color=color, markersize=3, marker='o')
     circ = plt.Circle((ecc * np.cos(ang * np.pi / 180), ecc * np.sin(ang * np.pi / 180)), siz,
-                      color=color, fill=False, linewidth=0.5, alpha=1.0)
+                      color=color, fill=False, linewidth=2.5, alpha=1.0)
     ax.add_artist(circ)
