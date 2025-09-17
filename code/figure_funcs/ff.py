@@ -50,6 +50,7 @@ def create_cmap_arcaro():
 
 # colormap for all angle maps
 cmap_angle = create_cmap_arcaro()
+cmap_angle.set_bad('black', 0.0)
 
 # colormap for variance explained / R^2 maps
 cmap_rsqr = matplotlib.cm.get_cmap('hot')
@@ -600,6 +601,135 @@ def char_prf_angle_3D(an, r2, thal, n_rep_shuffle=5, side='left', view='coronal'
     print("Best fit: N = " + str(len(ss)))
 
 
+def char_prf_angle_3D_get_fit(an, r2, thal, r2_comparison=None, side='left', n_orientation=100, r2_cutoff=0.1):
+    """ Characterizes the organization of pRF maps angle in 3D space, plot data version
+    """
+    # Note:
+        # indices [0:93, :, :] -> LH
+        # indices [94:, :, :] -> RH
+
+    # Determine matrix indiceds that are valid (needs to be left hemisphere and variance
+    # explained greater than 0.1% to be considered for testing)
+    hemi = np.ones(an.shape, dtype=bool)
+    if side == 'left':
+        hemi[94:, :, :] = False
+    else:
+        hemi[1:93, :, :] = False
+    # If r2_comparison is provided, we additionally require that r2 passed cutoff, voxel is
+    # in thalamus, voxel is in hemisphere, AND r2 > r2_comparison
+    if r2_comparison is None:
+        idxs_valid = np.logical_and(np.logical_and(r2 > r2_cutoff, thal == 1), hemi)
+    else:
+        idxs_valid = np.logical_and(np.logical_and(np.logical_and(r2 > r2_cutoff, thal == 1), r2 > r2_comparison), hemi)
+
+    # From azimuths and elevations, we first need to calculate the vectors that represent
+    # all of the candidate pRF map orientations we want to test
+    azimuths = np.linspace(0.0, 2*np.pi, n_orientation)
+    elevations = np.linspace(0.0, np.pi, n_orientation)
+    theta, phi = np.meshgrid(azimuths, elevations)
+    v_X = np.sin(phi) * np.cos(theta)
+    v_Y = np.sin(phi) * np.sin(theta)
+    v_Z = np.cos(phi)
+
+    # First, determine all linear indices of valid coordinates
+    idxs_valid_flat = idxs_valid.flatten()
+
+    # Next, squeeze the data in the slice and subset to include only valid elements. We
+    # also determine and subset the cartesian coordintes corresponding to each element
+    ss = an.flatten()[idxs_valid_flat]  # flattened subset of data we want 
+    I, J, K = np.indices(r2.shape)    
+    idxs = np.stack([I.flatten(), J.flatten(), K.flatten()], axis=1)
+    idxs = idxs[idxs_valid_flat]        # flattened cartesian coordinates 
+
+    # For each possible orientation, we determine how well angle pRF
+    # params can be explained by linear regression between angle (in 0 to 180 degrees)
+    # and the projection of the voxel coordinates onto that oriented vector
+    rsqr = np.zeros([len(azimuths), len(elevations)])
+    r_best = 0.0
+    v_best = np.array([0.0, 0.0, 0.0])
+    y_hat_best = np.zeros_like(ss)
+    for i in range(len(azimuths)):
+        for j in range(len(elevations)):
+            # Create vector from cartesian coordinates
+            v = np.array([v_X[i, j], v_Y[i, j], v_Z[i, j]])
+
+            # Determine projections of coordinates
+            v_mag = np.linalg.norm(v)  # should be one anyway
+            scalar_projections = np.dot(idxs, v) / v_mag
+
+            # Correlate projections with true angles
+            res = scipy.stats.linregress(scalar_projections, ss)
+            rsqr[i, j] = res.rvalue
+
+            # If this is the best fit so far, store it
+            if res.rvalue > r_best:
+                r_best = res.rvalue
+                v_best = v
+                y_hat_best = res.intercept + res.slope * scalar_projections 
+    return y_hat_best, idxs_valid, ss, idxs
+
+
+def char_prf_angle_3D_fits_vs_data(an, r2, thal, roi, r2_comparison=None, n_orientation=100, r2_cutoff=0.1, side='left'):
+    # Do analysis
+    y_hat_best, idxs_valid, ss, idxs = char_prf_angle_3D_get_fit(an, r2, thal, r2_comparison, side=side, n_orientation=n_orientation, r2_cutoff=r2_cutoff)
+
+    # Next, we need to create an empty dataset and fill in the predicted values
+    an_hat = np.zeros_like(an)
+    for i in range(len(ss)):
+        an_hat[idxs[i, 0], idxs[i, 1], idxs[i, 2]] = y_hat_best[i]
+
+    an_masked = np.ma.array(an, mask=np.logical_not(idxs_valid))
+    an_hat_masked = np.ma.array(an_hat, mask=np.logical_not(idxs_valid))
+
+    # Create figure
+    if side == 'left':
+        xlow, xhigh = 60, 83 
+        ylow, yhigh = 60, 83
+    else:
+        xlow, xhigh = 182-83, 182-60
+        ylow, yhigh = 60, 83
+
+    deltax = xhigh-xlow
+    deltay = yhigh-ylow
+    ar = deltax/deltay
+    if side == 'left':
+        slices = np.arange(100, 94, -1)
+    else:
+        slices = np.arange(95, 101, 1)
+    plt.figure(figsize=(3.0*ar*len(slices), 3.0*2), dpi=300)
+
+    # Select slices to plot
+    for i, slice in enumerate(slices):
+        # Plot data
+        plt.subplot(2, len(slices), i+1)
+        plt.imshow(np.squeeze(an_masked[:, slice, :]).T, cmap=cmap_angle, vmin=0, vmax=180)
+        plot_roi_overlay(roi, 'coronal', slice, 2.5, 'black')
+        plt.xlim(xlow, xhigh)
+        plt.ylim(ylow, yhigh)
+        plt.gca().get_xaxis().set_visible(False)
+        plt.gca().get_yaxis().set_visible(False)
+        plt.gca().spines['top'].set_visible(False)
+        plt.gca().spines['right'].set_visible(False)
+        plt.gca().spines['bottom'].set_visible(False)
+        plt.gca().spines['left'].set_visible(False)
+
+    for i, slice in enumerate(slices):
+        # Plot data
+        plt.subplot(2, len(slices), i+1 + len(slices))
+        plt.imshow(np.squeeze(an_hat_masked[:, slice, :]).T, cmap=cmap_angle, vmin=0, vmax=180)
+        plot_roi_overlay(roi, 'coronal', slice, 2.5, 'black')
+        plt.xlim(xlow, xhigh)
+        plt.ylim(ylow, yhigh)
+        plt.gca().get_xaxis().set_visible(False)
+        plt.gca().get_yaxis().set_visible(False)
+        plt.gca().spines['top'].set_visible(False)
+        plt.gca().spines['right'].set_visible(False)
+        plt.gca().spines['bottom'].set_visible(False)
+        plt.gca().spines['left'].set_visible(False)
+
+    plt.gcf().tight_layout(pad=0)
+
+
 def plot_empty_polar_axis():
     # Create figure
     fig = plt.figure(figsize=(3, 3), dpi=300)
@@ -927,7 +1057,7 @@ def plot_mip_roi_overlay(ax, ROI, view, color=None, linestyle='solid', linewidth
                     ax.plot(cont[:, 0], cont[:, 1], linewidth=linewidth, linestyle=linestyle, color=color)
 
 
-def plot_roi_overlay(ROI, view, idx, outline_width=1.0):
+def plot_roi_overlay(ROI, view, idx, outline_width=1.0, color=None):
     # Extract and overlay ROIs
     for roi_val in [1, 2, 3, 4, 5]:
         # Look only for one ROI val
@@ -944,8 +1074,13 @@ def plot_roi_overlay(ROI, view, idx, outline_width=1.0):
         contour = measure.find_contours(roi_present, 0.8)
         if len(contour) > 0:
             for cont in contour:
-                 plt.plot(cont[:, 0], cont[:, 1], linewidth=outline_width,
-                          color=cmap_thal(np.linspace(0, 1, 5))[roi_val-1])
+                 if color is None:
+                    plt.plot(cont[:, 0], cont[:, 1], linewidth=outline_width,
+                            color=cmap_thal(np.linspace(0, 1, 5))[roi_val-1])
+                 else:
+                    plt.plot(cont[:, 0], cont[:, 1], linewidth=outline_width,
+                            color=color)
+
 
 
 def plot_slice(img1, idx, view, lims_x=(0, 200), lims_y=(0, 200), cmap1='gray', clim1=None, marker=None,
