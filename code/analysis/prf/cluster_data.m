@@ -11,8 +11,8 @@ n_sess_per_subj = [40, 40, 32, 30, 40, 32, 40, 30];
 hemis = {'lh', 'rh'};
 
 % Loop through subjects
-for subj=1:8
-    for idx_hemi=[2]
+for subj = 1:8
+    for idx_hemi = 1:2
         % Print progress
         fprintf('Subj = %d Hemi = %s\n', subj, hemis{idx_hemi})
 
@@ -23,7 +23,11 @@ for subj=1:8
         LH = 1:floor(182/2);
         RH = (max(LH)+1):182;
 
-        % Define LH/RH indices for MNI subspace containing pulvinar data spanning from coords_start(1):coords_end(1), etc...
+        % Define vectors LH_sub and LH_full. LH_sub indicates which x-direction coordinates
+        % of the restricted subcortical MNI volume are in the LH; LH_full tells us the
+        % corresponding indices of those voxels in the full MNI volume (same for RH)
+        LH_full = LH(LH >= coords_start(1));
+        RH_full = RH(RH <= coords_end(1));
         LH_sub = LH(LH >= coords_start(1)) - coords_start(1) + 1;
         RH_sub = RH(RH <= coords_end(1)) - coords_start(1) + 1;
 
@@ -31,9 +35,9 @@ for subj=1:8
         x = storage_ind; 
         x = permute(x, [2, 3, 4, 1, 5]);  % convert to (n_x=56, n_y=22, n_z=27, n_sess=n_sess_per_subj(subj), n_trial=750)
         if idx_hemi == 1
-            x = x(LH_sub, :, :, :, :);
+            x = x(LH_sub, :, :, :, :);  % use LH sub to index into x dimension
         else
-            x = x(RH_sub, :, :, :, :);
+            x = x(RH_sub, :, :, :, :);  % use RH sub to index into x dimension
         end
         x = squish(x, 3); % convert to (n_voxel, n_sess, 750)
         x = zscore(x, 0, 3);  % z-score each session
@@ -50,7 +54,8 @@ for subj=1:8
             cluster_ids = kmeans(s, k, 'MaxIter', 1000, 'Replicates', 10);  % kmeans takes (n_voxel, n_component) -> (n_voxel, cluster_id)
 
             % Embed data brick in MNI space, branching based on whether we're filling in the
-            % LH or RH results based on the current value of `hemi`
+            % LH or RH results based on the current value of `hemi`. (Note, this is the 
+            % tricky part --- easy to mess up the indexing here!)
             vol = nan(182, 218, 182);	
             if idx_hemi == 1
                 subvol = zeros(length(LH_sub), 22, 27);
@@ -59,11 +64,11 @@ for subj=1:8
             end
             subvol(:) = cluster_ids(:);
             if idx_hemi == 1
-                vol(LH_sub, ...
+                vol(LH_full, ...
                     coords_start(2):coords_end(2), ...
                     coords_start(3):coords_end(3)) = subvol;
             else
-                vol(RH_sub, ...
+                vol(RH_full, ...
                     coords_start(2):coords_end(2), ...
                     coords_start(3):coords_end(3)) = subvol;
             end
