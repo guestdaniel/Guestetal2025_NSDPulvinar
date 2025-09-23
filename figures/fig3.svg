@@ -7,7 +7,7 @@
    viewBox="0 0 225 115"
    version="1.1"
    id="svg956"
-   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
+   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
    sodipodi:docname="fig3.svg"
    inkscape:export-filename="/home/daniel/Guestetal2021/figs_output/fig3.png"
    inkscape:export-xdpi="599.95648"
@@ -239,9 +239,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.8"
-     inkscape:cx="60.357143"
-     inkscape:cy="205.35714"
+     inkscape:zoom="1.4"
+     inkscape:cx="401.78571"
+     inkscape:cy="232.85714"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -272,7 +272,7 @@
      id="layer1"
      transform="translate(0,-182)">
     <image
-       xlink:href="..%5C..%5CDesktop%5CGuestetal2025_NSDPulvinar_files%5Cdesktop%5CGuestetal2021%5Cfigs_output%5Cfig_prf_anatomy_coronal.png"
+       xlink:href="fig_prf_anatomy_coronal.png"
        y="216.7751"
        x="3.9822836"
        id="image1528"
@@ -280,7 +280,7 @@
        height="77.225948"
        width="29.419409" />
     <image
-       xlink:href="..%5C..%5CDesktop%5CGuestetal2025_NSDPulvinar_files%5Cdesktop%5CGuestetal2021%5Cfigs_output%5Cfig_prf_anatomy_sagittal.png"
+       xlink:href="fig_prf_anatomy_sagittal.png"
        y="189.67363"
        x="2.8105338"
        id="image1539"
@@ -492,37 +492,37 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.49832px;line-height:0.85;font-family:Lato;-inkscape-font-specification:Lato;letter-spacing:0px;word-spacing:0px;fill:#808080;fill-opacity:1;stroke:none;stroke-width:0.218645"
-       x="-247.0675"
+       x="-243.89255"
        y="4.7875886"
        id="text8067-0"
        transform="rotate(-90)"><tspan
          sodipodi:role="line"
          id="tspan8065-9"
-         x="-247.0675"
+         x="-243.89255"
          y="4.7875886"
          style="fill:#808080;stroke-width:0.218645">anterior</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.49832px;line-height:0.85;font-family:Lato;-inkscape-font-specification:Lato;letter-spacing:0px;word-spacing:0px;fill:#808080;fill-opacity:1;stroke:none;stroke-width:0.218645"
-       x="-277.68698"
+       x="-279.80359"
        y="4.7875886"
        id="text8067-36"
        transform="rotate(-90)"><tspan
          sodipodi:role="line"
          id="tspan8065-0"
-         x="-277.68698"
+         x="-279.80359"
          y="4.7875886"
          style="fill:#808080;stroke-width:0.218645">posterior</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.49832px;line-height:0.85;font-family:Lato;-inkscape-font-specification:Lato;letter-spacing:0px;word-spacing:0px;fill:#808080;fill-opacity:1;stroke:none;stroke-width:0.218645"
-       x="-261.19147"
+       x="-263.30807"
        y="4.0712657"
        id="text8162"
        transform="rotate(-90)"><tspan
          sodipodi:role="line"
          id="tspan8160"
-         x="-261.19147"
+         x="-263.30807"
          y="4.0712657"
          style="fill:#808080;stroke-width:0.218645">...............</tspan></text>
     <text
@@ -713,7 +713,7 @@
        y="268.69272" />
     <g
        id="g3040"
-       transform="matrix(0.94500032,0,0,0.94500032,0.36864411,180.99821)">
+       transform="matrix(0.94500032,0,0,0.94500032,-0.68968923,180.99821)">
       <g
          id="g3002">
         <text
@@ -810,7 +810,7 @@
       </g>
     </g>
     <g
-       transform="matrix(0.94500032,0,0,0.94500032,90.647181,180.99821)"
+       transform="matrix(0.94500032,0,0,0.94500032,89.588847,180.99821)"
        id="g3040-4">
       <g
          id="g3002-3">
@@ -908,13 +908,6 @@
       </g>
     </g>
     <rect
-       style="opacity:1;vector-effect:none;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.18900007;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect3111"
-       width="2.809839"
-       height="1.2628489"
-       x="166.74028"
-       y="250.64127" />
-    <rect
        style="opacity:1;vector-effect:none;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.26950768;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect3113"
        width="177.07465"
@@ -952,28 +945,28 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;line-height:0.85;font-family:Lato;-inkscape-font-specification:Lato;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       x="35.739574"
-       y="256.78329"
+       x="33.622906"
+       y="257.31247"
        id="text3170"><tspan
          sodipodi:role="line"
          id="tspan3168"
-         x="35.739574"
-         y="256.78329"
+         x="33.622906"
+         y="257.31247"
          style="stroke-width:0.264583">Contrast Avg</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;line-height:0.85;font-family:Lato;-inkscape-font-specification:Lato;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       x="128.71005"
-       y="255.79237"
+       x="127.12257"
+       y="256.85071"
        id="text3170-6"><tspan
          sodipodi:role="line"
          id="tspan3168-4"
-         x="128.71005"
-         y="255.79237"
+         x="127.12257"
+         y="256.85071"
          style="stroke-width:0.264583">Body Avg</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;line-height:0.85;font-family:Lato;-inkscape-font-specification:Lato;letter-spacing:0px;word-spacing:0px;fill:#0000ff;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52777778px;line-height:0.85;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;fill:#0000ff;fill-opacity:1;stroke:none;stroke-width:0.264583"
        x="33.267273"
        y="285.92526"
        id="text3192"><tspan
@@ -981,10 +974,10 @@
          id="tspan3190"
          x="33.267273"
          y="285.92526"
-         style="font-size:3.52778px;fill:#0000ff;fill-opacity:1;stroke-width:0.264583">Right hemisphere</tspan></text>
+         style="fill:#0000ff;fill-opacity:1;stroke-width:0.264583;font-size:3.52777778px;-inkscape-font-specification:Arial;font-family:Arial;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal">Right hemisphere</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;line-height:0.85;font-family:Lato;-inkscape-font-specification:Lato;letter-spacing:0px;word-spacing:0px;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52778px;line-height:0.85;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.264583"
        x="34.336178"
        y="289.15143"
        id="text3192-9"><tspan
@@ -992,29 +985,29 @@
          id="tspan3190-5"
          x="34.336178"
          y="289.15143"
-         style="font-size:3.52778px;fill:#ff0000;fill-opacity:1;stroke-width:0.264583">Left hemisphere</tspan></text>
+         style="font-size:3.52778px;fill:#ff0000;fill-opacity:1;stroke-width:0.264583;-inkscape-font-specification:Arial;font-family:Arial;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal">Left hemisphere</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;line-height:0.85;font-family:Lato;-inkscape-font-specification:Lato;letter-spacing:0px;word-spacing:0px;fill:#0000ff;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       x="123.85468"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52778px;line-height:0.85;font-family:Lato;-inkscape-font-specification:Lato;letter-spacing:0px;word-spacing:0px;fill:#0000ff;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="123.84521"
        y="285.21426"
        id="text3192-0"><tspan
          sodipodi:role="line"
          id="tspan3190-4"
-         x="123.85468"
+         x="123.84521"
          y="285.21426"
-         style="font-size:3.52778px;fill:#0000ff;fill-opacity:1;stroke-width:0.264583">Right hemisphere</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52778px;font-family:Arial;-inkscape-font-specification:Arial;fill:#0000ff;fill-opacity:1;stroke-width:0.264583">Right hemisphere</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;line-height:0.85;font-family:Lato;-inkscape-font-specification:Lato;letter-spacing:0px;word-spacing:0px;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       x="124.92358"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52778px;line-height:0.85;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="125.03032"
        y="288.44046"
        id="text3192-9-8"><tspan
          sodipodi:role="line"
          id="tspan3190-5-7"
-         x="124.92358"
+         x="125.03032"
          y="288.44046"
-         style="font-size:3.52778px;fill:#ff0000;fill-opacity:1;stroke-width:0.264583">Left hemisphere</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.52778px;font-family:Arial;-inkscape-font-specification:Arial;fill:#ff0000;fill-opacity:1;stroke-width:0.264583">Left hemisphere</tspan></text>
     <image
        xlink:href="fig_contrast_mainmaps_updated.png"
        transform="matrix(0.31893936,0,0,0.31893936,30.7616,256.31348)"
@@ -1058,67 +1051,67 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;line-height:0.85;font-family:Lato;-inkscape-font-specification:Lato;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       x="57.997486"
+       x="56.409985"
        y="197.52455"
        id="text3437"><tspan
          sodipodi:role="line"
          id="tspan3435"
-         x="57.997486"
+         x="56.409985"
          y="197.52455"
          style="stroke-width:0.264583">#1</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;line-height:0.85;font-family:Lato;-inkscape-font-specification:Lato;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       x="86.383423"
+       x="84.795921"
        y="197.52455"
        id="text3437-1"><tspan
          sodipodi:role="line"
          id="tspan3435-5"
-         x="86.383423"
+         x="84.795921"
          y="197.52455"
          style="stroke-width:0.264583">#2</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;line-height:0.85;font-family:Lato;-inkscape-font-specification:Lato;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       x="114.52376"
+       x="112.93626"
        y="197.49069"
        id="text3437-1-9"><tspan
          sodipodi:role="line"
          id="tspan3435-5-7"
-         x="114.52376"
+         x="112.93626"
          y="197.49069"
          style="stroke-width:0.264583">#3</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;line-height:0.85;font-family:Lato;-inkscape-font-specification:Lato;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       x="147.55551"
+       x="145.96803"
        y="197.32846"
        id="text3437-7"><tspan
          sodipodi:role="line"
          id="tspan3435-6"
-         x="147.55551"
+         x="145.96803"
          y="197.32846"
          style="stroke-width:0.264583">#1</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;line-height:0.85;font-family:Lato;-inkscape-font-specification:Lato;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       x="175.94145"
+       x="174.35397"
        y="197.32846"
        id="text3437-1-7"><tspan
          sodipodi:role="line"
          id="tspan3435-5-3"
-         x="175.94145"
+         x="174.35397"
          y="197.32846"
          style="stroke-width:0.264583">#2</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333px;line-height:0.85;font-family:Lato;-inkscape-font-specification:Lato;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
-       x="204.08179"
+       x="202.49431"
        y="197.2946"
        id="text3437-1-9-6"><tspan
          sodipodi:role="line"
          id="tspan3435-5-7-5"
-         x="204.08179"
+         x="202.49431"
          y="197.2946"
          style="stroke-width:0.264583">#3</tspan></text>
     <image
@@ -1138,7 +1131,7 @@
        x="210.28262"
        y="229.92181" />
     <image
-       xlink:href="..%5C..%5CDesktop%5CGuestetal2025_NSDPulvinar_files%5Cdesktop%5CGuestetal2021%5Cfigs_output%5Cfig_contrast_mainmaps_colormap3.png"
+       xlink:href="fig_contrast_mainmaps_colormap3.png"
        width="6.8417544"
        height="15.393947"
        preserveAspectRatio="none"

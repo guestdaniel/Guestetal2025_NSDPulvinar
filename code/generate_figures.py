@@ -3,6 +3,7 @@
 # This script generates all Python-derived figure elements for the manuscript.
 # This script does fairly little heavy lifting, and as such can be expected
 # to run on a normal workstation and should finish within 30 minutes.
+# The contents of the `data/prepared` folder MUST be populated for this script to run!
 
 # Import OS and navigate to correct directory to run this file; we assume that the script
 # is initiated from the main repository folder!
@@ -17,7 +18,7 @@ from figs_gen.fig_prf_wta import *
 # from figs_gen.fig_corr_methods import *
 from figs_gen.fig_corr_cor_to_sub import *
 from figs_gen.supp_fig_prf_all import *
-# from figs_gen.fig_corr_sub_to_cor import *
+from figs_gen.fig_corr_sub_to_cor import *
 # from figs_gen.supp_fig_prf_wta import *
 
 # Function to generate all colorbars
@@ -26,10 +27,12 @@ def run_colorbars():
     colorbar_angle()
     colorbar_size()
     colorbar_variance_explained()
+    colorbar_variance_explained_cortical()
     colorbar_roi()
     colorbar_laterality()
     colorbar_pearsons()
     colorbar_consistency()
+    colorbar_corr_decomp()
 
 # Function to generate components of Figure 2 (winner-take-all pRF comparison)
 def run_fig2():
@@ -42,11 +45,19 @@ def run_fig2():
 
 # Function to generate components of Figure 3 (pRF spatial coding)
 def run_fig3():
+    # Main contrast pRF figure
     fig_prf_contrast_anatomy()
     fig_prf_contrast_maps()
     fig_prf_contrast_rf_coverage()
+
+    # Main body pRF figure
     fig_prf_body_maps()
     fig_prf_body_rf_coverage()
+
+def run_supp_fig_pRF():
+    # Characterization of pRF maps supplemental figure for LH
+    fig_char_contrast_maps()
+    fig_char_body_maps()
 
 def run_fig6():
     plot_fig_corr_cor_to_sub_ventral_stream_avg_group_contours()

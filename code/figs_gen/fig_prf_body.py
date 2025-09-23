@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from figure_funcs import ff
 from matplotlib import patches
 import matplotlib
-matplotlib.use('Agg')
+#matplotlib.use('Agg')
 
 
 def fig_prf_body_anatomy():
@@ -69,6 +69,46 @@ def fig_prf_body_maps():
     # Construct figure
     ff.plot_prf_parameter_sequence(T1, R2, AN, AN_orig, EC, SZ, THA, ROI, slices=[100, 97, 95])
     plt.savefig(os.path.join('../figures', 'fig_body_mainmaps_updated.png'))
+
+
+def fig_char_body_maps():
+    # Import data volumes
+    T1 = ff.load_volume(volume='T1')
+    R2 = ff.load_volume(volume='bodyauto_R2')
+    AN = ff.load_volume(volume='bodyauto_angle')
+    EC = ff.load_volume(volume='bodyauto_eccentricity')
+    SZ = ff.load_volume(volume='bodyauto_size')
+    ROI = ff.load_volume(volume='thalamus')
+
+    # Transform data into np.arrays and transform as necessary
+    ROI = np.array(ROI)
+    T1 = np.mean(np.array(T1), axis=0)
+    R2 = np.median(np.array(R2), axis=0)
+    AN = np.abs(np.angle(np.nanmedian(np.exp(1j * (np.array(AN)*np.pi/180 + np.pi/2)), axis=0)))*180/np.pi   # IMPORTANT: TRANSFORMED TO 0-180 FOR LVM TO UVM
+    EC = np.median(np.array(EC), axis=0)
+    SZ = np.median(np.array(SZ), axis=0)
+    THA = nib.load(os.path.join(ff.dir_data, 'group', 'mni', 'postthalamus.nii.gz')).get_fdata()
+
+    # Coronal
+    ff.char_prf_angle(AN, R2, THA, np.arange(102, 93, -1), 5000, 'left', 'coronal')
+    plt.savefig(os.path.join('../figures', 'fig_body_angle_analysis_lh_coronal.png'))
+    ff.char_prf_angle(AN, R2, THA, np.arange(102, 93, -1), 5000, 'right', 'coronal')
+    plt.savefig(os.path.join('../figures', 'fig_body_angle_analysis_rh_coronal.png'))
+
+    # Sagittal
+    ff.char_prf_angle(AN, R2, THA, np.arange(62, 85, 1), 5000, 'left', 'sagittal')
+    plt.savefig(os.path.join('../figures', 'fig_body_angle_analysis_lh_sagittal.png'))
+    ff.char_prf_angle(AN, R2, THA, np.arange(182-62, 182-85, -1), 5000, 'right', 'sagittal')
+    plt.savefig(os.path.join('../figures', 'fig_body_angle_analysis_rh_sagittal.png'))
+
+    # Axial
+    ff.char_prf_angle(AN, R2, THA, np.arange(65, 85, 1), 5000, 'left', 'axial')
+    plt.savefig(os.path.join('../figures', 'fig_body_angle_analysis_lh_axial.png'))
+    ff.char_prf_angle(AN, R2, THA, np.arange(65, 85, 1), 5000, 'right', 'axial')
+    plt.savefig(os.path.join('../figures', 'fig_body_angle_analysis_rh_axial.png'))
+
+    # ff.char_prf_eccentricity(EC, R2, THA)
+    # plt.savefig(os.path.join('../figures', 'fig_body_ecc_analysis.png'))
 
 
 def fig_prf_body_rf_coverage():

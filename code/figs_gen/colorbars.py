@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib as mpl
-matplotlib.use('Agg')
+#matplotlib.use('Agg')
 from figure_funcs import ff
 
 
@@ -30,6 +30,31 @@ def colorbar_variance_explained():
     plt.colorbar(cax=cax)
     plt.savefig(os.path.join('../figures', 'fig_colorbar_variance_explained.png'))
 
+
+def colorbar_variance_explained_cortical():
+    # Variance explained colorbar
+    a = np.array([[0, 40]])
+    plt.figure(figsize=(1, 2.25))
+    img = plt.imshow(a, cmap=ff.cmap_rsqr)
+    plt.gca().set_visible(False)
+    cax = plt.axes([0.2, 0.1, 0.2, 0.8])
+    plt.colorbar(cax=cax)
+    plt.savefig(os.path.join('../figures', 'fig_colorbar_variance_explained_cortical.png'))
+
+
+def colorbar_corr_decomp():
+    maxvals = [0.05892, 0.00118, 0.10630]
+    for idx_maxval, maxval in enumerate(maxvals):
+        a = np.array([[-1, 1]])
+        plt.figure(figsize=(1.5, 2.25))
+        img = plt.imshow(a, cmap=ff.cmap_r)
+        plt.gca().set_visible(False)
+        cax = plt.axes([0.15, 0.1, 0.2, 0.85])
+        cbar = plt.colorbar(cax=cax)
+        cbar.set_ticks([-1.0, 0.0, 1.0])
+        cbar.set_ticklabels([str(-maxval), '0.0', str(maxval)])
+        plt.savefig(os.path.join('../figures', 'fig_colorbar_corr_coef_analysis=' + str(idx_maxval) + '.png'))
+   
 
 def colorbar_angle():
     # Angle colorbar
@@ -100,6 +125,18 @@ def colorbar_pearsons():
     cbar.set_ticks([0, 0.5, 1])
     cbar.set_ticklabels(['0.0', '0.05', '0.1'])
     plt.savefig(os.path.join('../figures', 'fig_colorbar_pearsons.png'))
+
+
+def colorbar_pearsons_prf_gradient():
+    a = np.array([[0, 1]])
+    plt.figure(figsize=(1, 2.25))
+    img = plt.imshow(a, cmap=matplotlib.cm.get_cmap('RdBu'))
+    plt.gca().set_visible(False)
+    cax = plt.axes([0.15, 0.1, 0.2, 0.85])
+    cbar = plt.colorbar(cax=cax)
+    cbar.set_ticks([0, 0.5, 1])
+    cbar.set_ticklabels(['0.45', '0.0', '-0.45'])
+    plt.savefig(os.path.join('../figures', 'fig_colorbar_prf_gradient.png'))
 
 
 def colorbar_consistency():
