@@ -1,27 +1,17 @@
 # Hierarchical processing of natural scenes in the human pulvinar
-This is the code repository for Guest, Allen, Kay, and Arcaro (2025), "Hierarchical processing of natural scenes in the human pulvinar," which is currently in submission.
+This is the code repository for Guest, Allen, Kay, and Arcaro (2025), "Processing of natural scenes in the human pulvinar," which is currently in submission.
 A preprint version of the paper is available on [BioRxiv](https://doi.org/10.1101/2025.03.20.644381).
 Please direct questions to Daniel Guest ([daniel_guest@urmc.rochester.edu](mailto:daniel_guest@urmc.rochester.edu)).
 
 ## Data, stimuli, and other materials
 This paper is an analysis of publically available data in the [Natural Scenes Dataset](naturalscenesdataset.org) (NSD).
 
-To reproduce the analyses, the preprocessed subset of NSD must be available on your local machine.
-It should be added as a folder entitled `nsd` in the `data` folder.
-(See below for more details.)
-
-In a [separate data repository](link to repo), we provide for convenience pre-computed data files containing our analyses that are used by the plotting code.
-These data should be acquired stored in `data`, as a folder called `prepared`.
+To reproduce the analyses, the NSD data must be available on your local machine.
+For any analyses that use the data except for the pRF analysis, the data should be added as a folder entitled `nsd` in the `data` folder.
+For the pRF analysis, follow the instructions in the separate README file.
 
 ## Environment and dependencies
 Code to produce the analyses and figures reported in the paper is written in a combination of MATLAB (for correlation analyses and surface plots, any recent version should do) and Python 3 (remaining figure/analysis code, tested on 3.12/3.13 but any recent version should do).
-
-## Notes on a few important things
-Angle data for the pRF mapping results are stored in degrees. 
-The transform `np.angle(np.exp(1j * av * np.pi/180)) * 180/np.pi`, where `av` is the angle value in degrees, will yield the range (0, 180) for the upper visual hemifield and then (-180, 0) for the lower visual hemifield (rotating counterclockwise).
-Sometimes it is necessary to instead use: `np.angle(np.exp(1j * (av * np.pi/180 + np.pi/2))) * 180/np.pi`.
-In this case, the positive phase shift of `np.pi/2` results in the right visual hemifield from the lower to upper vertical meridian becoming (0, 180), and the left visual hemifield from the upper to lower vertical meridian becoming (-180, 0). 
-Hence, if we take the absolute value of this result, we have a measure from 0 to 180 that spans from lower to upper vertical meridian.
 
 ### MATLAB dependencies
 - MATLAB toolboxes (Parallel Toolbox, Image Processing Toolbox)
@@ -34,7 +24,7 @@ Hence, if we take the absolute value of this result, we have a measure from 0 to
 - skimage
 - scipy
 
-## Analysis and figure generation
+## Analysis
 Below, we list the steps required to reproduce the figures in the paper.
 
 ### Preprocessing
@@ -46,6 +36,10 @@ Below, we list the steps required to reproduce the figures in the paper.
 4. For several of these files, we then need to transform them from one space to another (e.g., 0.5mm subject-specific anatomical space to shared MNI space).
 This is achieved by the `src/preproc/transform...` MATLAB scripts.
 5. Compile various cortical ROIs needed in subsequent analysis steps with `src/preproc/compile_ROIs.m`
+
+### Perform pRF analysis
+The code for performing the pRF model fitting is available in the `code/fit_pRF_models` folder.
+This code has a separate README file and instructions for use.
 
 ### Perform correlation analyses
 (Note that many of the steps below rely on scripts that still use hard server-specific paths; these are being gradually replaced with relative paths to copies of the data in `data`. If you run into an issue along these lines, please reach out to the authors for support.)
@@ -60,37 +54,36 @@ Subcortex-to-cortex correlation analyses are implemented in MATLAB and bash scri
 3. `s03_postprocess_images.sh` postprocesses these images to make them publication-ready (e.g., cropping white space, resizing, etc.)
 
 Note that these scripts require a very large amount of memory (> 100 GB) as currently structured, and thus they are expected to be run on a high-performance computing cluster.
-Unless you wish to reproduce these analyses, you can skip this step and use the prepared data in the `data/prepared` folder to proceed with figure generation (see below).
 
-### Generate figures
+## Generate figures
 With the necessary data available on disk and the analyses complete, you can generate the subcomponents of the figures as described below for each figure in order.
-The script `code/generate_figures.py` will do most of this work for you, provided that all of the outputs above have already been generated and stored in `data/prepared` or the prepared data have been downloaded from the [data repository](link to repo).
+The script `code/generate_figures.py` will do most of this work for you.
 
-#### Figure 1 (pRF methods)
+### Figure 1 (pRF methods)
 This figure is hand-assembled from the stimulus image and feature files; no scripts are used.
 
-#### Figure 2 (pRF rsqr and winner-take-all)
+### Figure 2 (pRF rsqr and winner-take-all)
 1. Figure 2A is generated by `fig_prf_wta_contextual_anatomy()` in `code/figs_gen/fig_prf_wta.py` (anatomy with ROI labels) and `fig_prf_maps()` in `code/figs_gen/supp_fig_prf_all.py` (anatomy with variance explained overlay).
 2. Figure 2B is generated by `fig_prf_wta_mip_maps()` in `code/figs_gen/fig_prf_wta.py`
 3. Figure 2C is generated by `fig_prf_wta_maps()` in `code/figs_gen/fig_prf_wta.py`.
 
-#### Figure 3 (Spatial coding of contrast and bodies)
+### Figure 3 (Spatial coding of contrast and bodies)
 1. Figure 3A is generated by `fig_prf_contrast_anatomy()` in code/figs_gen/fig_prf_contrast.py`
 2. Figure 3B is generated by `fig_prf_contrast_maps()` in `code/figs_gen/fig_prf_contrast.py`.
 3. Figure 3C is generated by `fig_prf_body_maps()` in `code/figs_gen/fig_prf_body.py`.
 4. Figure 3D is generated by `fig_prf_contrast_rf_coverage()` in `code/figs_gen/fig_prf_contrast.py`.
 5. Figure 3E is generated by `fig_prf_body_rf_coverage()` in `code/figs_gen/fig_prf_contrast.py`.
 
-#### Figure 4 (correlation methods and same-trials correlation results)
+### Figure 4 (correlation methods and same-trials correlation results)
 1. Figure 4A is assembled in Inkscape.
 2. Figure 4B is assembled in Inkscape, but uses one map output from `code/analysis/corr_sub_to_cor/s02_plot_surfaces.m` as an example.
 3. Figure 4C uses the outputs of `code/analysis/corr_sub_to_cor/s02_plot_surfaces.m` and `code/analysis/corr_sub_to_cor/s03_postprocess_images.sh`.
 
-#### Figure 5 (Different-trials correlation results)
+### Figure 5 (Different-trials correlation results)
 1. Figure 5A (correlation/stimulus schematic) is ssembled in Inkscape.
 2. Figure 5B and 5C are based on the outputs of `code/analysis/corr_sub_to_cor/s02_plot_surfaces.m` and `code/analysis/corr_cor_to_sub/s03_postprocess_images.sh`.
 
-#### Figure 6 (Cortex-to-subcortex correlation methods and results)
+### Figure 6 (Cortex-to-subcortex correlation methods and results)
 1. Figure 6A is assembled in Inkscape.
 2. Figure 6B is generated by `plot_fig_corr_cor_to_sub_group_consistency_maps()` in `code/figs_gen/fig_corr_cor_to_sub.py`.
 3. Figure 6C is generated by `plot_fig_corr_cor_to_sub_ventral_stream_avg_group_contours()` in `code/figs_gen/fig_corr_cor_to_sub.py`.
