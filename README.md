@@ -3,6 +3,8 @@ This is the code repository for Guest, Allen, Kay, and Arcaro (2025), "Processin
 A preprint version of the paper is available on [BioRxiv](https://doi.org/10.1101/2025.03.20.644381).
 Please direct questions to Daniel Guest ([daniel_guest@urmc.rochester.edu](mailto:daniel_guest@urmc.rochester.edu)).
 
+[![DOI](https://zenodo.org/badge/339227586.svg)](https://doi.org/10.5281/zenodo.4750502)
+
 ## Data, stimuli, and other materials
 This paper is an analysis of publically available data in the [Natural Scenes Dataset](naturalscenesdataset.org) (NSD).
 
